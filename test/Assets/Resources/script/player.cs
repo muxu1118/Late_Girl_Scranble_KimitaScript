@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class player : MonoBehaviour 
     {
-
-    public float speed = 0f; //プレイヤーの速さ
+    [SerializeField]
+    float speed = 0f; //プレイヤーの速さ
     public Sprite[] walk; //プレイヤーの歩くスプライト配列
     int animIndex; //歩くアニメーションのインデックス
     bool walkCheck; //歩いているかのチェック
