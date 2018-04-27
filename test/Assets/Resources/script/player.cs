@@ -6,20 +6,52 @@ public class player : MonoBehaviour
     {
     [SerializeField]
     float speed = 0f; //プレイヤーの速さ
+    [SerializeField]
+    float jumpH = 5f;//ジャンプの高さ
     public Sprite[] walk; //プレイヤーの歩くスプライト配列
     int animIndex; //歩くアニメーションのインデックス
     bool walkCheck; //歩いているかのチェック
-    public float flame = 0f;
+    public float flame = 0f;//フレームチェック
+
+    bool isjump = false;//ジャンプのbool
 
     // Use this for initialization
     void Start()
     {
-        animIndex = 0;
-        walkCheck = false;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        Jump();
+    }
+    
+
+    //ジャンプをするよ（一回）
+    public void Jump()
+    {
+        if (isjump) { return; }
+        //クリック、スペースキーを押したとき
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
+        {
+            GetComponent<Animator>().SetTrigger("jumptorriger");
+            GetComponent<Animator>().ResetTrigger("groundtorriger");
+            GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
+            isjump = true;
+            //参考演算子（ifみたいな）レイヤーが16だったら8にする
+            gameObject.layer = gameObject.layer == 16 ? 8 : 16;
+        }
+    }
+    //接触したらジャンプができる。後々グラウンドタグをつけていきたい
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag != "Ground") return;
+        Debug.Log("ground");
+        GetComponent<Animator>().SetTrigger("groundtorriger");
+        isjump = false;
+    }
+    ///前に作ったコマ割りでアニメーション動かすプログラム
+     /* void update()
     {
         flame += 0.1f;
         if (flame <= 20)
@@ -37,21 +69,5 @@ public class player : MonoBehaviour
             flame = 0;
         }
     }
-    void Walk()
-    {
-        
-        //歩くアニメーションの再生
-        animIndex++;
-        if (animIndex >= walk.Length)
-        {
-            animIndex = 0;
-        }
-        GetComponent<SpriteRenderer>().sprite = walk[animIndex];
-
-    }
-    //「コルーチン」で呼び出すメソッド
-    IEnumerator sleep()
-    {
-        yield return new WaitForSeconds(5);  //1秒待つ
-    }
+    */
 }
