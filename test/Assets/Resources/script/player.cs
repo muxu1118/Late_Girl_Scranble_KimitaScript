@@ -15,20 +15,33 @@ public class player : MonoBehaviour
 
     bool isjump = false;//ジャンプのbool
 
+    [SerializeField]
+    private Timer time;//timerスクリプトから時間を持ってくるように作成
+
     // Use this for initialization
     void Start()
     {
+        //デバッグ
+        Debug.Log(time.Count);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Jump();
+        //ゲーム中だけ動かせるよう
+        if (time.Count < time.CountLimit - 0.01)
+        {
+            Jump();
+        }
+        //ゲーム終了時にどっか行くように
+        if (time.Count+0.01 >= time.CountLimit)
+        {
+            transform.Translate(0.2f, 0, 0);
+        }
     }
     
-
-    //ジャンプをするよ（一回）
-    public void Jump()
+//ジャンプをするよ（一回）
+public void Jump()
     {
         if (isjump) { return; }
         //クリック、スペースキーを押したとき
@@ -42,7 +55,7 @@ public class player : MonoBehaviour
             gameObject.layer = gameObject.layer == 16 ? 8 : 16;
         }
     }
-    //接触したらジャンプができる。後々グラウンドタグをつけていきたい
+    //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag != "Ground") return;

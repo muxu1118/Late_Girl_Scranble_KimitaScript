@@ -86,6 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Resources\script\BackGroundMove.cs" />
+    <Compile Include="Assets\Resources\script\Block.cs" />
+    <Compile Include="Assets\Resources\script\Gorl.cs" />
+    <Compile Include="Assets\Resources\script\Item.cs" />
+    <Compile Include="Assets\Resources\script\ScoreManager.cs" />
+    <Compile Include="Assets\Resources\script\Timer.cs" />
     <Compile Include="Assets\Resources\script\player.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
