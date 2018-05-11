@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
     //ゲームタイム
-    private float count = 0;
+    [SerializeField]
+    private float count = 0f;
     /// <summary>
     ///ゲームの終了する時間
     /// </summary>
     [SerializeField]
-    private float countLimit = 300;
+    private float countLimit = 300f;
     //ほかのスクリプトから呼び出せるように
     public float Count
     {
@@ -28,12 +29,24 @@ public class Timer : MonoBehaviour {
         }
     }
 
+    private void Awake()
+    {
+        Debug.Log(GetComponent<Text>().fontSize);
+    }
+
     // Update is called once per frame
     void Update () {
-        if (count < countLimit-0.01)
+        if (count < countLimit)
         {
             count += Time.deltaTime; //スタートしてからの秒数を格納
             GetComponent<Text>().text = count.ToString("F2"); //小数2桁にして表示
         }
+        else
+        {
+            count = 10.00f;
+            GetComponent<Text>().text = count.ToString("F2");
+        }
+
+        
     }
 }

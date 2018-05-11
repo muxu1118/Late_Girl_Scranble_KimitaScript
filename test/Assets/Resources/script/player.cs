@@ -5,7 +5,7 @@ using UnityEngine;
 public class player : MonoBehaviour 
     {
     [SerializeField]
-    float speed = 0f; //プレイヤーの速さ
+    private float speed = 0.2f; //プレイヤーの速さ
     [SerializeField]
     float jumpH = 5f;//ジャンプの高さ
     public Sprite[] walk; //プレイヤーの歩くスプライト配列
@@ -17,6 +17,7 @@ public class player : MonoBehaviour
 
     [SerializeField]
     private Timer time;//timerスクリプトから時間を持ってくるように作成
+    private BackGroundMove backSpeed;
 
     // Use this for initialization
     void Start()
@@ -32,6 +33,7 @@ public class player : MonoBehaviour
         if (time.Count < time.CountLimit - 0.01)
         {
             Jump();
+            Sriding();
         }
         //ゲーム終了時にどっか行くように
         if (time.Count+0.01 >= time.CountLimit)
@@ -54,6 +56,14 @@ public void Jump()
             //参考演算子（ifみたいな）レイヤーが16だったら8にする
             gameObject.layer = gameObject.layer == 16 ? 8 : 16;
         }
+    }
+
+ public void Sriding()
+    {
+        //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
+        if (isjump) { return; }
+        GetComponent<Animator>().SetTrigger("sridingtorriger");
+        GetComponent<Animator>().ResetTrigger("groundtorriger");
     }
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
