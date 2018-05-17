@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio for Mac
+# Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test.Plugins", "test.Plugins.csproj", "{1B67EF4C-0C4E-3B15-4052-B03DB4C6A78F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test.csproj", "{F96E0787-DF81-0979-2B6A-18AE3634D852}"

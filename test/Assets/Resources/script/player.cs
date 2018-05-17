@@ -62,8 +62,14 @@ public void Jump()
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
         if (isjump) { return; }
-        GetComponent<Animator>().SetTrigger("sridingtorriger");
-        GetComponent<Animator>().ResetTrigger("groundtorriger");
+        if (Input.GetKeyDown("a"))
+        {
+            GetComponent<Animator>().SetTrigger("sridingtorriger");
+            GetComponent<Animator>().ResetTrigger("groundtorriger");
+            //参考演算子（ifみたいな）レイヤーが8だったら16にする
+            gameObject.layer = gameObject.layer == 8 ? 16:16;
+        }
+        
     }
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
