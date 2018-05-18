@@ -14,6 +14,8 @@ public class player : MonoBehaviour
     public float flame = 0f;//フレームチェック
 
     bool isjump = false;//ジャンプのbool
+    [SerializeField]
+    bool isSriding = false;
 
     [SerializeField]
     private Timer time;//timerスクリプトから時間を持ってくるように作成
@@ -62,18 +64,25 @@ public void Jump()
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
         if (isjump) { return; }
-        if (Input.GetKeyDown("a"))
+        if (Input.GetKey("a"))
         {
             GetComponent<Animator>().SetTrigger("sridingtorriger");
             GetComponent<Animator>().ResetTrigger("groundtorriger");
+            isSriding = true;
             //参考演算子（ifみたいな）レイヤーが8だったら16にする
             gameObject.layer = gameObject.layer == 8 ? 16:16;
         }
-        
+        if (!Input.GetKey("a"))
+        {
+            isSriding = false;
+        }
+
+
     }
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
     {
+        if (isSriding == true) return;
         if (other.gameObject.tag != "Ground") return;
         Debug.Log("ground");
         GetComponent<Animator>().SetTrigger("groundtorriger");
