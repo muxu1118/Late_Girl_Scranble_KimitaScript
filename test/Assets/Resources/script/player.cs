@@ -72,8 +72,8 @@ public void Jump()
             //参考演算子（ifみたいな）レイヤーが8だったら16にする
             gameObject.layer = gameObject.layer == 8 ? 16:16;
         }
-        if (!Input.GetKey("a"))
-        {
+        else {
+            GetComponent<Animator>().SetTrigger("groundtorriger");
             isSriding = false;
         }
 
@@ -82,7 +82,6 @@ public void Jump()
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (isSriding == true) return;
         if (other.gameObject.tag != "Ground") return;
         Debug.Log("ground");
         GetComponent<Animator>().SetTrigger("groundtorriger");

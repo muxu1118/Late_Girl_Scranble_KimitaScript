@@ -27,9 +27,9 @@ public class BackGroundMove : MonoBehaviour {
         if (time.Count <= time.CountLimit)
         {
             transform.Translate(BackSceneSpeed, 0, 0);
-            if (transform.position.x < -10.65f * 2)
+            if (transform.position.x < (-21.2 - 4.37))
             {
-                transform.position = new Vector3(10.65f * 2, -1, 0);
+                transform.position = new Vector3(21.2f + 4.37f , 0.21f, 0);
             }
         }
         else
