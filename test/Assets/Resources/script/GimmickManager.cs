@@ -13,4 +13,8 @@ public class GimmickManager : MonoBehaviour {
 	void Update () {
 		
 	}
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        //どうしようか
+    }
 }
