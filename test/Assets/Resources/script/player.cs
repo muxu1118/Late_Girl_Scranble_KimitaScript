@@ -93,8 +93,11 @@ public void Jump()
             GetComponent<Animator>().SetTrigger("sridingtorriger");
             GetComponent<Animator>().ResetTrigger("groundtorriger");
             isSriding = true;
-            //参考演算子（ifみたいな）レイヤーが8だったら16にする
-            gameObject.layer = 16;
+            if(gameObject.layer == 8)
+            {
+                gameObject.layer = 16;
+                isjump = true;
+            }
         }
         else {
             GetComponent<Animator>().SetTrigger("groundtorriger");
