@@ -19,6 +19,7 @@ public class player : MonoBehaviour
     float minite=3;
 
     bool isjump = false;//ジャンプのbool
+    bool isdoublejump = false;
     [SerializeField]
     bool isSriding = false;
 
@@ -71,8 +72,7 @@ public class player : MonoBehaviour
 //ジャンプをするよ（一回）
 public void Jump()
     {
-        if (isjump) { return; }
-        if (isStop) { return; }
+        if (isjump|| isStop) { return; }
         //クリック、スペースキーを押したとき
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
         {
@@ -80,23 +80,21 @@ public void Jump()
             GetComponent<Animator>().ResetTrigger("groundtorriger");
             GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             isjump = true;
-            //参考演算子（ifみたいな）レイヤーが16だったら8にする
-            //gameObject.layer = gameObject.layer == 16 ? 8 : 16;
+            
         }
     }
 
  public void Sriding()
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
-        if (isjump) { return; }
-        if (isStop) { return; }
+        if (isjump|| isStop) { return; }
         if (Input.GetKey("a"))
         {
             GetComponent<Animator>().SetTrigger("sridingtorriger");
             GetComponent<Animator>().ResetTrigger("groundtorriger");
             isSriding = true;
             //参考演算子（ifみたいな）レイヤーが8だったら16にする
-            gameObject.layer = gameObject.layer == 8 ? 16:16;
+            gameObject.layer = 16;
         }
         else {
             GetComponent<Animator>().SetTrigger("groundtorriger");
@@ -108,16 +106,29 @@ public void Jump()
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag != "Ground") return;
-        if (isStop==true) return;
+        if (other.gameObject.tag != "Ground"|| isStop) return;
         Debug.Log("ground");
         GetComponent<Animator>().SetTrigger("groundtorriger");
         isjump = false;
+        isdoublejump = false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Block") return;
+        if (isjump) {
+            if (collision.gameObject.tag == "car") {
+                GetComponent<Animator>().SetTrigger("dounblejumptorriger");
+                GetComponent<Animator>().ResetTrigger("jumptorriger");
+                GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
+                isdoublejump = true;
+                //参考演算子（ifみたいな）レイヤーが16だったら8にする
+                gameObject.layer = gameObject.layer == 16 ? 8 : 16;
+            }
+        }
+        if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
+        if (isdoublejump) return;
         isStop = true;
+        isjump = false;
+        isSriding = false;
         Debug.Log("障害物に当たり申した");
         count = 0;
         GetComponent<Animator>().SetTrigger("stop");
