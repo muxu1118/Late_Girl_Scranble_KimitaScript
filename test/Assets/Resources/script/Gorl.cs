@@ -23,4 +23,13 @@ public class Gorl : MonoBehaviour {
             GorlLabelObject.SetActive(true);
         }
 	}
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //ここからリザルト遷移
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("壁に当たった");
+        }
+    }
 }

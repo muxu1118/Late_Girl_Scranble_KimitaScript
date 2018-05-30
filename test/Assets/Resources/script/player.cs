@@ -13,7 +13,7 @@ public class player : MonoBehaviour
     bool walkCheck; //歩いているかのチェック
     public float flame = 0f;//フレームチェック
 
-    float nowTime;
+    float jumpcount;
     float count;
     [SerializeField]
     float minite=3;
@@ -39,6 +39,7 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
         {
             Debug.Log(isStop);
@@ -55,6 +56,7 @@ public class player : MonoBehaviour
             transform.Translate(0.2f, 0, 0);
         }
         count += Time.deltaTime;
+        jumpcount += Time.deltaTime;
         //障害物に当たったら時間でアニメーションを変える
         if (isStop==true)
         {
@@ -66,6 +68,16 @@ public class player : MonoBehaviour
                 Debug.Log(count);
                 isStop = false;
             }
+        }
+        if (isdoublejump == true)
+        {
+            //miniteで何秒後に点滅解除
+            if (jumpcount >= 0.5)
+            {
+                //参考演算子（ifみたいな）レイヤーが16だったら8にする
+                gameObject.layer = gameObject.layer == 16 ? 8 : 16;
+                
+             }
         }
     }
     
@@ -123,12 +135,11 @@ public void Jump()
                 GetComponent<Animator>().ResetTrigger("jumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
                 isdoublejump = true;
-                //参考演算子（ifみたいな）レイヤーが16だったら8にする
-                gameObject.layer = gameObject.layer == 16 ? 8 : 16;
+                jumpcount = 0;
+                return;
             }
         }
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
-        if (isdoublejump) return;
         isStop = true;
         isjump = false;
         isSriding = false;
