@@ -43,7 +43,7 @@ public class Timer : MonoBehaviour {
         }
         else
         {
-            count = 10.00f;
+			count = countLimit;
             GetComponent<Text>().text = count.ToString("F2");
         }
 

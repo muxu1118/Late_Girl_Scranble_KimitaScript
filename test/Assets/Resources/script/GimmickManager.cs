@@ -6,24 +6,33 @@ public class GimmickManager : MonoBehaviour {
     Vector3 gimmickPosition;
     [SerializeField]
     private Timer time;
+	[SerializeField]
+	private bool GimickBack = true;
+	[SerializeField]
+	private float GimickSpeed = 0.15f;
+	[SerializeField]
+	private float BackEndPosition = 10;
     // Use this for initialization
     void Start () {
         gimmickPosition = transform.position;
-
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Translate(-0.1f, 0, 0);
-        if (transform.position.x < (- 10))
-        {
-            transform.position = new Vector3(25f, gimmickPosition.y, 0);
-        
-        }
-        /*if(time.Count <= time.CountLimit)
-        {
-            Destroy(gameObject);
-        }*/
+		transform.Translate(-1*GimickSpeed, 0, 0);
+		if (GimickBack == true)
+		{
+			if (transform.position.x < (BackEndPosition*-1))
+			{
+				transform.position = new Vector3(25f, gimmickPosition.y, 0);
+
+			}
+			/*if(time.Count <= time.CountLimit)
+			{
+				Destroy(gameObject);
+			}*/
+		}
     }
     private void OnTriggerEnter2D(Collider2D collider)
     {
