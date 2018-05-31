@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 
 public class buttonanimation : MonoBehaviour {
-
+    
+	public string nextScene = "mainScene";
 	[SerializeField]
     RectTransform rectTran;
 	[SerializeField]
@@ -47,5 +48,6 @@ public class buttonanimation : MonoBehaviour {
 	public void StartPush(){
 		push = true;
 		_Clicks.Play();
+		SceneManager.LoadScene(nextScene);
 	}
 }

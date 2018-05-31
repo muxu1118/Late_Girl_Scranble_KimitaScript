@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Gorl : MonoBehaviour {
 
@@ -30,6 +31,7 @@ public class Gorl : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("壁に当たった");
+			SceneManager.LoadScene("Resaults");
         }
     }
 }
