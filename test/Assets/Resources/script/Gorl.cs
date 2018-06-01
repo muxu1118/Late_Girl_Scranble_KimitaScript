@@ -34,7 +34,9 @@ public class Gorl : MonoBehaviour {
         if (timer.Count + 0.01 >= timer.CountLimit)
         {
             GorlLabelObject.SetActive(true);
+			push = true;
         }
+
 		if (push == true)
 		{
 			_audios.volume = MVol -= fadeAudio;
