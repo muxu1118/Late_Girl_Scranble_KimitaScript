@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class buttonanimation : MonoBehaviour {
     
-	public string nextScene = "mainScene";
+	public string nextScene = "MainScene";
 	[SerializeField]
     RectTransform rectTran;
 	[SerializeField]

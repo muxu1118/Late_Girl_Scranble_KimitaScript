@@ -14,7 +14,7 @@ public class Loading : MonoBehaviour {
 	string nextScene;
 	public void NextScene(){
 		loadUI.SetActive(true);
-		StartCoroutine("LoadData");
+		StartCoroutine("Loaddata");
 	}
 	IEnumerator Loaddata(){
 		Time.timeScale = 1.0f;

@@ -87,7 +87,7 @@ public class SceneLoadManager : MonoBehaviour
         Instance.StartCoroutine(Instance.FadeOutScene(Instance.fadeTime, () =>
         {
             //シーン切替 .
-            SceneManager.LoadScene("LoadScene");
+            SceneManager.LoadScene("Loading");
         }));
     }
 
@@ -98,7 +98,7 @@ public class SceneLoadManager : MonoBehaviour
         Instance.StartCoroutine(Instance.FadeOutScene(Instance.fadeTime, () =>
         {
             //シーン切替 .
-            SceneManager.LoadScene("LoadScene");
+            SceneManager.LoadScene("Loading");
         }));
     }
 

@@ -11,7 +11,7 @@ public class Timer : MonoBehaviour {
     ///ゲームの終了する時間
     /// </summary>
     [SerializeField]
-    private float countLimit = 300f;
+    private float countLimit = 30f;
     public float num;
     public int digit = 16;
     public bool zeroFill = false;
