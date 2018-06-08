@@ -31,7 +31,7 @@ public class Gorl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //ゲームが終了したときラベルを表示させる
-        if (timer.Count + 0.01 >= timer.CountLimit)
+        if (timer.Count <= timer.CountLimit)
         {
             GorlLabelObject.SetActive(true);
 			push = true;

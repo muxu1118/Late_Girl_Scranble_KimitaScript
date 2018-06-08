@@ -6,17 +6,25 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour {
     //ゲームタイム
     [SerializeField]
-    private float count = 0f;
+    private GameObject showSprite;
+    [SerializeField]
+    private float count = 30f;
     /// <summary>
     ///ゲームの終了する時間
     /// </summary>
     [SerializeField]
-    private float countLimit = 30f;
+    private float countLimit = 0f;
     public float num;
     public int digit = 16;
     public bool zeroFill = false;
+    private Vector3 timePosition;
     private List<Image> NumImageList = new List<Image>();
-    [SerializeField] private Sprite[] spriteNumbers = new Sprite[10];
+    private GameObject timesprite;
+    private GameObject[] numSpriteGird;         // 表示用スプライトオブジェクトの配列
+    private Dictionary<char, Sprite> dicSprite; // スプライトディクショナリ
+
+    [SerializeField]
+    private Sprite[] spriteNumbers = new Sprite[10];
     //ほかのスクリプトから呼び出せるように
     public float Count
     {
@@ -36,267 +44,85 @@ public class Timer : MonoBehaviour {
 
     private void Awake()
     {
-        Debug.Log(GetComponent<Text>().fontSize);
+        timePosition = GetComponent<SpriteRenderer>().transform.position;
+        
+            dicSprite = new Dictionary<char, Sprite>() {
+            { '0', spriteNumbers[0] },
+            { '1', spriteNumbers[1] },
+            { '2', spriteNumbers[2] },
+            { '3', spriteNumbers[3] },
+            { '4', spriteNumbers[4] },
+            { '5', spriteNumbers[5] },
+            { '6', spriteNumbers[6] },
+            { '7', spriteNumbers[7] },
+            { '8', spriteNumbers[8] },
+            { '9', spriteNumbers[9] },
+        };
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (count < countLimit)
+
+        if (count > countLimit)
         {
-            if (NumImageList.Count == digit)
-            {
-                //桁数が揃っているので数値を表示する
-                float num2 = num;
-                int numDigit = 0;
-                if (num2 > 0)
-                {
-                    numDigit = ((int)Mathf.Log10(num2) + 1);
-                }
-                if (numDigit > digit)
-                {
-                    //数値が桁数を超えている
-                    for (int i = 0; i < NumImageList.Count; i++)
-                    {
-                        Image numImage = NumImageList.ToArray()[i];
-                        if (numImage != null)
-                        {
-                            numImage.color = Color.white;
-                            numImage.sprite = spriteNumbers[spriteNumbers.Length - 1];
-                        }
-                    }
-                }
-                else
-                {
-                    //数値が桁数を超えていない
-                    int[] numIndexs = new int[numDigit];
-                    for (int i = 0; i < numDigit; i++)
-                    {
-                        numIndexs[i] = (int)(num2 % 10);
-                        num2 = num2 / 10;
-                    }
-                    for (int i = 0; i < NumImageList.Count; i++)
-                    {
-                        Image numImage = NumImageList.ToArray()[i];
-                        if (numImage != null)
-                        {
-                            if (numDigit == 0 && i == 0)
-                            {
-                                //数値が0だった時の処理（1桁目は必ず0で表示）
-                                numImage.color = Color.white;
-                                numImage.sprite = spriteNumbers[0];
-                            }
-                            else if (i < numIndexs.Length)
-                            {
-                                //数値を反映する
-                                numImage.color = Color.white;
-                                numImage.sprite = spriteNumbers[numIndexs[i]];
-                            }
-                            else
-                            {
-                                if (zeroFill)
-                                {
-                                    //0埋め
-                                    numImage.color = Color.white;
-                                    numImage.sprite = spriteNumbers[0];
-                                }
-                                else
-                                {
-                                    //非表示
-                                    numImage.color = Color.clear;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (NumImageList.Count < digit)
-                {
-                    //桁数が足りないので増やす
-                    GameObject numImageObj = new GameObject();
-                    if (numImageObj != null)
-                    {
-                        numImageObj.name = "NumberImage" + (NumImageList.Count + 1);
-                        numImageObj.transform.SetParent(this.transform);
-                        RectTransform thisRect = this.GetComponent<RectTransform>();
-                        if (thisRect != null)
-                        {
-                            Image numImage = numImageObj.AddComponent<Image>();
-                            if (numImage != null)
-                            {
-                                numImage.color = Color.clear;
-                                RectTransform numImageRect = numImageObj.GetComponent<RectTransform>();
-                                if (numImageRect != null)
-                                {
-                                    if (spriteNumbers != null && spriteNumbers.Length > 0)
-                                    {
-                                        numImageRect.sizeDelta = new Vector2(spriteNumbers[0].bounds.size.x * (thisRect.sizeDelta.y / spriteNumbers[0].bounds.size.y), thisRect.sizeDelta.y);
-                                        if (NumImageList.Count == 0)
-                                        {
-                                            numImageObj.transform.localPosition = new Vector3(thisRect.sizeDelta.x / 2 - numImageRect.sizeDelta.x / 2, 0);
-                                        }
-                                        else
-                                        {
-                                            Image image = NumImageList.ToArray()[NumImageList.Count - 1];
-                                            if (image != null)
-                                            {
-                                                numImageObj.transform.localPosition = new Vector3(image.transform.localPosition.x - numImageRect.sizeDelta.x, 0);
-                                            }
-                                        }
-                                        NumImageList.Add(numImage);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    //桁数が多いので減らす
-                    Image image = NumImageList.ToArray()[NumImageList.Count - 1];
-                    if (image != null)
-                    {
-                        NumImageList.RemoveAt(NumImageList.Count - 1);
-                        Destroy(image.gameObject);
-                    }
-                }
-            }
-            count += Time.deltaTime; //スタートしてからの秒数を格納
-            num = (long)count;
-            //GetComponent<Text>().text = count.ToString("F2"); //小数2桁にして表示
+            count -= Time.deltaTime; //スタートしてからの秒数を格納
+            timerSet(count);
+
         }
         else
         {
-            num = countLimit;
-            if (count < countLimit)
-            {
-                if (NumImageList.Count == digit)
-                {
-                    //桁数が揃っているので数値を表示する
-                    float num2 = num;
-                    int numDigit = 0;
-                    if (num2 > 0)
-                    {
-                        numDigit = ((int)Mathf.Log10(num2) + 1);
-                    }
-                    if (numDigit > digit)
-                    {
-                        //数値が桁数を超えている
-                        for (int i = 0; i < NumImageList.Count; i++)
-                        {
-                            Image numImage = NumImageList.ToArray()[i];
-                            if (numImage != null)
-                            {
-                                numImage.color = Color.white;
-                                numImage.sprite = spriteNumbers[spriteNumbers.Length - 1];
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //数値が桁数を超えていない
-                        int[] numIndexs = new int[numDigit];
-                        for (int i = 0; i < numDigit; i++)
-                        {
-                            numIndexs[i] = (int)(num2 % 10);
-                            num2 = num2 / 10;
-                        }
-                        for (int i = 0; i < NumImageList.Count; i++)
-                        {
-                            Image numImage = NumImageList.ToArray()[i];
-                            if (numImage != null)
-                            {
-                                if (numDigit == 0 && i == 0)
-                                {
-                                    //数値が0だった時の処理（1桁目は必ず0で表示）
-                                    numImage.color = Color.white;
-                                    numImage.sprite = spriteNumbers[0];
-                                }
-                                else if (i < numIndexs.Length)
-                                {
-                                    //数値を反映する
-                                    numImage.color = Color.white;
-                                    numImage.sprite = spriteNumbers[numIndexs[i]];
-                                }
-                                else
-                                {
-                                    if (zeroFill)
-                                    {
-                                        //0埋め
-                                        numImage.color = Color.white;
-                                        numImage.sprite = spriteNumbers[0];
-                                    }
-                                    else
-                                    {
-                                        //非表示
-                                        numImage.color = Color.clear;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (NumImageList.Count < digit)
-                    {
-                        //桁数が足りないので増やす
-                        GameObject numImageObj = new GameObject();
-                        if (numImageObj != null)
-                        {
-                            numImageObj.name = "NumberImage" + (NumImageList.Count + 1);
-                            numImageObj.transform.SetParent(this.transform);
-                            RectTransform thisRect = this.GetComponent<RectTransform>();
-                            if (thisRect != null)
-                            {
-                                Image numImage = numImageObj.AddComponent<Image>();
-                                if (numImage != null)
-                                {
-                                    numImage.color = Color.clear;
-                                    RectTransform numImageRect = numImageObj.GetComponent<RectTransform>();
-                                    if (numImageRect != null)
-                                    {
-                                        if (spriteNumbers != null && spriteNumbers.Length > 0)
-                                        {
-                                            numImageRect.sizeDelta = new Vector2(spriteNumbers[0].bounds.size.x * (thisRect.sizeDelta.y / spriteNumbers[0].bounds.size.y), thisRect.sizeDelta.y);
-                                            if (NumImageList.Count == 0)
-                                            {
-                                                numImageObj.transform.localPosition = new Vector3(thisRect.sizeDelta.x / 2 - numImageRect.sizeDelta.x / 2, 0);
-                                            }
-                                            else
-                                            {
-                                                Image image = NumImageList.ToArray()[NumImageList.Count - 1];
-                                                if (image != null)
-                                                {
-                                                    numImageObj.transform.localPosition = new Vector3(image.transform.localPosition.x - numImageRect.sizeDelta.x, 0);
-                                                }
-                                            }
-                                            NumImageList.Add(numImage);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //桁数が多いので減らす
-                        Image image = NumImageList.ToArray()[NumImageList.Count - 1];
-                        if (image != null)
-                        {
-                            NumImageList.RemoveAt(NumImageList.Count - 1);
-                            Destroy(image.gameObject);
-                        }
-                    }
-                }
-            }
-
             count = countLimit;
-            GetComponent<Text>().text = count.ToString("F2");
+            timerSet(count);
+
         }
 
-        
+
     }
-}
+    private void timerSet(float time)
+    {
+        int limit = (int)countLimit;
+        /*//数字を画像で出そうとしたやつ。
+        if (time < 10)
+        {
+            GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time];
+        }
+        else if (time < 20)
+        {
+            GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time - 10];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time - 20];
+        }
+        // 表示文字列取得
+        string strValue = count.ToString();
+
+        // 現在表示中のオブジェクト削除
+        if (numSpriteGird != null)
+        {
+            foreach (var numSprite in numSpriteGird)
+            {
+                GameObject.Destroy(numSprite);
+            }
+        }
+
+        // 表示桁数分だけオブジェクト作成
+        numSpriteGird = new GameObject[strValue.Length];
+        for (var i = 0; i < numSpriteGird.Length; ++i)
+        {
+            // オブジェクト作成
+            numSpriteGird[i] = Instantiate(
+                showSprite,
+                transform.position + new Vector3((float)i*2, 0),
+                Quaternion.identity) as GameObject;
+
+            // 表示する数値指定
+            numSpriteGird[i].GetComponent<SpriteRenderer>().sprite = dicSprite[strValue[i]];
+
+            // 自身の子階層に移動
+            numSpriteGird[i].transform.parent = transform;
+        }
+        */
+    }
+} 

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class player : MonoBehaviour 
-    {
+public class player : MonoBehaviour {
     [SerializeField]
     private float speed = 0.2f; //プレイヤーの速さ
     [SerializeField]
@@ -13,13 +12,14 @@ public class player : MonoBehaviour
     bool walkCheck; //歩いているかのチェック
     public float flame = 0f;//フレームチェック
 
-    float jumpcount;
-    float count;
+    private const int maxjump = 2;//二回ジャンプ
+    private int jumpcount=0;//ジャンプのカウント
+    float count;//時間のカウント
     [SerializeField]
-    float minite=3;
+    float minite=3;//障害物にあたって止まる時間
 
     bool isjump = false;//ジャンプのbool
-    bool isdoublejump = false;
+    bool isdoublejump = false;//ダブルジャンプ
     [SerializeField]
     bool isSriding = false;
 
@@ -40,23 +40,19 @@ public class player : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
-        {
-            Debug.Log(isStop);
-        }
+        
         //ゲーム中だけ動かせるよう
-        if (time.Count < time.CountLimit - 0.01)
+        if (time.Count > time.CountLimit)
         {
             Jump();
             Sriding();
         }
         //ゲーム終了時にどっか行くように
-        if (time.Count+0.01 >= time.CountLimit)
+        if (time.Count <= time.CountLimit)
         {
             transform.Translate(0.2f, 0, 0);
         }
         count += Time.deltaTime;
-        jumpcount += Time.deltaTime;
         //障害物に当たったら時間でアニメーションを変える
         if (isStop==true)
         {
@@ -69,30 +65,31 @@ public class player : MonoBehaviour
                 isStop = false;
             }
         }
-        if (isdoublejump == true)
-        {
-            //miniteで何秒後に点滅解除
-            if (jumpcount >= 0.5)
-            {
-                //参考演算子（ifみたいな）レイヤーが16だったら8にする
-                gameObject.layer = gameObject.layer == 16 ? 8 : 16;
-                
-             }
-        }
     }
-    
-//ジャンプをするよ（一回）
-public void Jump()
+
+    //ジャンプをするよ
+    public void Jump()
     {
-        if (isjump|| isStop) { return; }
+
+        if (isStop || jumpcount >= maxjump) { return; }
         //クリック、スペースキーを押したとき
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
         {
-            GetComponent<Animator>().SetTrigger("jumptorriger");
-            GetComponent<Animator>().ResetTrigger("groundtorriger");
-            GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             isjump = true;
-            
+            GetComponent<Animator>().ResetTrigger("groundtorriger");
+            jumpcount++;
+            if (jumpcount == 1)
+            {
+                GetComponent<Animator>().SetTrigger("jumptorriger");
+                GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
+            }
+            else
+            {
+                Debug.Log(jumpcount);
+                GetComponent<Animator>().SetTrigger("doublejumptorriger");
+                GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
+
+            }
         }
     }
 
@@ -105,17 +102,13 @@ public void Jump()
             GetComponent<Animator>().SetTrigger("sridingtorriger");
             GetComponent<Animator>().ResetTrigger("groundtorriger");
             isSriding = true;
-            if(gameObject.layer == 8)
-            {
-                gameObject.layer = 16;
-                isjump = true;
-            }
+            
         }
         else {
             GetComponent<Animator>().SetTrigger("groundtorriger");
             isSriding = false;
         }
-
+        if (jumpcount != 0) GetComponent<Animator>().SetTrigger("groundtorriger");
 
     }
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
@@ -124,21 +117,14 @@ public void Jump()
         if (other.gameObject.tag != "Ground"|| isStop) return;
         Debug.Log("ground");
         GetComponent<Animator>().SetTrigger("groundtorriger");
+        GetComponent<Animator>().ResetTrigger("jumptorriger");
+        GetComponent<Animator>().ResetTrigger("doublejumptorriger");
         isjump = false;
-        isdoublejump = false;
+        jumpcount = 0;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isjump) {
-            if (collision.gameObject.tag == "car") {
-                GetComponent<Animator>().SetTrigger("dounblejumptorriger");
-                GetComponent<Animator>().ResetTrigger("jumptorriger");
-                GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
-                isdoublejump = true;
-                jumpcount = 0;
-                return;
-            }
-        }
+        
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
         isStop = true;
         isjump = false;

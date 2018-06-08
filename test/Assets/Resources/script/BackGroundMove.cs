@@ -24,7 +24,7 @@ public class BackGroundMove : MonoBehaviour {
 
     void Update () {
         //時間の間地面を移動させる
-        if (time.Count <= time.CountLimit)
+        if (time.Count > time.CountLimit)
         {
             transform.Translate(BackSceneSpeed, 0, 0);
             if (transform.position.x < -(31.5))
