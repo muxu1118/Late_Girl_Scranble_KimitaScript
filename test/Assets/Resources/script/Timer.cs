@@ -45,8 +45,8 @@ public class Timer : MonoBehaviour {
     private void Awake()
     {
         timePosition = GetComponent<SpriteRenderer>().transform.position;
-        
-            dicSprite = new Dictionary<char, Sprite>() {
+       
+        dicSprite = new Dictionary<char, Sprite>() {
             { '0', spriteNumbers[0] },
             { '1', spriteNumbers[1] },
             { '2', spriteNumbers[2] },
@@ -72,7 +72,7 @@ public class Timer : MonoBehaviour {
         }
         else
         {
-            count = countLimit;
+            count = countLimit;//ゴールしたらゴールタイムをカウントにする（少し時間がずれる場合があるため）
             timerSet(count);
 
         }
@@ -82,6 +82,8 @@ public class Timer : MonoBehaviour {
     private void timerSet(float time)
     {
         int limit = (int)countLimit;
+        //var numSprite = GetComponent<time>();
+        //numSprite.Value = (int)count; // ここで「1234」の値を指定
         /*//数字を画像で出そうとしたやつ。
         if (time < 10)
         {
@@ -95,6 +97,7 @@ public class Timer : MonoBehaviour {
         {
             GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time - 20];
         }
+        
         // 表示文字列取得
         string strValue = count.ToString();
 
@@ -106,7 +109,7 @@ public class Timer : MonoBehaviour {
                 GameObject.Destroy(numSprite);
             }
         }
-
+        
         // 表示桁数分だけオブジェクト作成
         numSpriteGird = new GameObject[strValue.Length];
         for (var i = 0; i < numSpriteGird.Length; ++i)
@@ -122,7 +125,6 @@ public class Timer : MonoBehaviour {
 
             // 自身の子階層に移動
             numSpriteGird[i].transform.parent = transform;
-        }
-        */
+        }*/
     }
 } 
