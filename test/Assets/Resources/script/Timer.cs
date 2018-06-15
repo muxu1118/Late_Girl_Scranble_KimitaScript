@@ -8,7 +8,9 @@ public class Timer : MonoBehaviour {
     [SerializeField]
     private GameObject showSprite;
     [SerializeField]
-    private float count = 30f;
+    private Image[] numberImages;
+    [SerializeField]
+    private float count = 120f;
     /// <summary>
     ///ゲームの終了する時間
     /// </summary>
@@ -44,7 +46,6 @@ public class Timer : MonoBehaviour {
 
     private void Awake()
     {
-        timePosition = GetComponent<SpriteRenderer>().transform.position;
        
         dicSprite = new Dictionary<char, Sprite>() {
             { '0', spriteNumbers[0] },
@@ -67,48 +68,47 @@ public class Timer : MonoBehaviour {
         if (count > countLimit)
         {
             count -= Time.deltaTime; //スタートしてからの秒数を格納
-            timerSet(count);
+            timerSet();
 
         }
         else
         {
             count = countLimit;//ゴールしたらゴールタイムをカウントにする（少し時間がずれる場合があるため）
-            timerSet(count);
+            timerSet();
 
         }
 
 
     }
-    private void timerSet(float time)
+    private void timerSet()
     {
-        int limit = (int)countLimit;
-        //var numSprite = GetComponent<time>();
-        //numSprite.Value = (int)count; // ここで「1234」の値を指定
-        /*//数字を画像で出そうとしたやつ。
-        if (time < 10)
-        {
-            GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time];
-        }
-        else if (time < 20)
-        {
-            GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time - 10];
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time - 20];
-        }
+        //int limit = (int)countLimit;
+        int minute = (int)count / 60;
+        float seconds = count - minute * 60;
+        numberImages[0].sprite = spriteNumbers[minute];//他にもTimerScriptの付いているオブジェクトがあって、そちらでnumberImagesが設定されていなかったのがバグの原因でした
+        numberImages[1].sprite = spriteNumbers[(int)seconds / 10];
+        numberImages[2].sprite = spriteNumbers[(int)seconds % 10];
+        numberImages[3].sprite = spriteNumbers[(int)(seconds * 10 % 10)];
+        
+
+        /*
+        var numSprite = GetComponent<time>();
+        numSprite.Value = (int)count; // ここで「1234」の値を指定
+        
+        GetComponent<SpriteRenderer>().sprite = spriteNumbers[(int)time%10];
+        
         
         // 表示文字列取得
         string strValue = count.ToString();
 
         // 現在表示中のオブジェクト削除
-        if (numSpriteGird != null)
-        {
-            foreach (var numSprite in numSpriteGird)
-            {
-                GameObject.Destroy(numSprite);
-            }
-        }
+        //if (numSpriteGird != null)
+        //{
+        //    foreach (var numSprite in numSpriteGird)
+        //    {
+        //        GameObject.Destroy(numSprite);
+        //    }
+        //}
         
         // 表示桁数分だけオブジェクト作成
         numSpriteGird = new GameObject[strValue.Length];
@@ -125,6 +125,7 @@ public class Timer : MonoBehaviour {
 
             // 自身の子階層に移動
             numSpriteGird[i].transform.parent = transform;
-        }*/
+        }
+        */
     }
 } 
