@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio for Mac
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateGirl_Scramble.Plugins", "LateGirl_Scramble.Plugins.csproj", "{2FD77659-2155-D538-7C7B-C731C0143CCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LateGirl_Scramble", "LateGirl_Scramble.csproj", "{B47E5F32-735D-1B08-EEDD-ACF7698CA81F}"
