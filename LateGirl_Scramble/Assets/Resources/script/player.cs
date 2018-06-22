@@ -22,7 +22,7 @@ public class player : MonoBehaviour {
     bool isdoublejump = false;//ダブルジャンプ
     [SerializeField]
     bool isSriding = false;
-
+    bool isGorl = false;
     bool isStop = false;//障害物あたったかどうか
 
     [SerializeField]
@@ -47,8 +47,11 @@ public class player : MonoBehaviour {
             Jump();
             Sriding();
         }
+        else {
+            isGorl = true;
+        }
         //ゲーム終了時にどっか行くように
-        if (time.Count <= time.CountLimit)
+        if (isGorl)
         {
             transform.Translate(0.2f, 0, 0);
         }
