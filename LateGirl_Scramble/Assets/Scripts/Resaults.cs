@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Resaults : MonoBehaviour {
-	public string nextScene = "StartScene";
+	//public string nextScene = "StartScene";
 	// Use this for initialization
 	void Start () {
 		
@@ -13,7 +13,13 @@ public class Resaults : MonoBehaviour {
 	void Update () {
 		
 	}
-	public void Onclic(){
-		SceneLoadManager.LoadScene(nextScene);
+	public void HomeButton(){
+		SceneLoadManager.LoadScene("StartScene");
+	}
+	public void NextButton(){
+		SceneLoadManager.LoadScene("");
+	}
+	public void ReStartButton(){
+		SceneLoadManager.LoadScene("mainScene");
 	}
 }
