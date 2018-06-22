@@ -36,6 +36,7 @@ public class buttonanimation : MonoBehaviour {
 	{
 		if (push == true)
 		{
+			//SceneLoadManager.LoadScene(nextScene);
 			_audios.volume = MVol -= fadeAudio;
             
 			if (MVol <= 0f)
@@ -48,6 +49,6 @@ public class buttonanimation : MonoBehaviour {
 	public void StartPush(){
 		push = true;
 		_Clicks.Play();
-		SceneManager.LoadScene(nextScene);
+		SceneLoadManager.LoadScene(nextScene);
 	}
 }

@@ -36,7 +36,7 @@ public class Gorl : MonoBehaviour {
             GorlLabelObject.SetActive(true);
 			push = true;
         }
-
+        //音
 		if (push == true)
 		{
 			_audios.volume = MVol -= fadeAudio;
