@@ -21,10 +21,8 @@ public class Item : MonoBehaviour {
     //アイテムの名前を呼び出す
     public int HeyItemName() {
         itemName = gameObject.name;
-        Debug.Log(gameObject.name);
         if (itemName == "pan")
         {
-            Debug.Log("pan");
             return 1;
         }
         else if (itemName == "sukebo")

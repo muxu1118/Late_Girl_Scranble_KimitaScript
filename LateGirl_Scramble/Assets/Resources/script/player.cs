@@ -16,7 +16,8 @@ public class player : MonoBehaviour {
     private int jumpcount=0;//ジャンプのカウント
     private int panCount = 0;//panをとった数をカウント
     float count;//時間のカウント
-    float sukeboCount;
+    float sukeboCount;//スケボーの時間をカウント
+    float sukeboTime=10f;//スケボーの時間制限
     [SerializeField]
     float minite=3;//障害物にあたって止まる時間
     float Xposition;
@@ -37,7 +38,7 @@ public class player : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        
+        backSpeed = GameObject.Find("BackGround").gameObject.GetComponent<BackSpeed>
         Xposition = transform.position.x;
         //デバッグ
         Debug.Log(time.Count);
@@ -55,7 +56,8 @@ public class player : MonoBehaviour {
         else if(isSukebo)
         {
             sukeboJump();
-            sukeboCount++;
+            sukeboCount += Time.deltaTime;
+            SukeboRelease();
         }
         else {
             isGorl = true;
@@ -79,11 +81,27 @@ public class player : MonoBehaviour {
             //miniteで何秒後に点滅解除
             if (count >= minite)
             {
-                GetComponent<Animator>().SetTrigger("groundtorriger");
-                GetComponent<Animator>().ResetTrigger("stop");
+                SetAnime("groundtorriger");
+                ReSetAnime("stop");
                 speed = 0.2f;
                 Debug.Log(count);
                 isStop = false;
+            }
+        }
+    }
+    //スケボー状態解除
+    private void SukeboRelease()
+    {
+        if (sukeboCount >= sukeboTime)
+        {
+            backSpeed.SpeedChange(2.0f); 
+            Debug.Log("スケボー解除");
+            isSukebo = false;
+            GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
+            ReSetAnime("sukebo");
+            if (jumpcount != 0)
+            {
+                SetAnime("jumptorriger");
             }
         }
     }
@@ -95,18 +113,19 @@ public class player : MonoBehaviour {
         //クリック、スペースキーを押したとき
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
         {
-            isSukeboJump = true;
-            GetComponent<Animator>().ResetTrigger("groundtorriger");
+            ReSetAnime("groundtorriger");
             jumpcount++;
             if (jumpcount == 1)
             {
-                GetComponent<Animator>().SetTrigger("jumptorriger");
+                SetAnime("sukeboJump");
+                ReSetAnime("sukebo");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             }
             else
             {
                 Debug.Log(jumpcount);
-                GetComponent<Animator>().SetTrigger("doublejumptorriger");
+                SetAnime("sukeboDoubleJump");
+                ReSetAnime("sukeboJump");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
 
             }
@@ -121,17 +140,17 @@ public class player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
         {
             isjump = true;
-            GetComponent<Animator>().ResetTrigger("groundtorriger");
+            ReSetAnime("groundtorriger");
             jumpcount++;
             if (jumpcount == 1)
             {
-                GetComponent<Animator>().SetTrigger("jumptorriger");
+                SetAnime("jumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             }
             else
             {
                 Debug.Log(jumpcount);
-                GetComponent<Animator>().SetTrigger("doublejumptorriger");
+                SetAnime("doublejumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
 
             }
@@ -144,16 +163,16 @@ public class player : MonoBehaviour {
         if (isjump|| isStop) { return; }
         if (Input.GetKey("a"))
         {
-            GetComponent<Animator>().SetTrigger("sridingtorriger");
-            GetComponent<Animator>().ResetTrigger("groundtorriger");
+            SetAnime("sridingtorriger");
+            ReSetAnime("groundtorriger");
             isSriding = true;
             
         }
         else {
-            GetComponent<Animator>().SetTrigger("groundtorriger");
+            SetAnime("groundtorriger");
             isSriding = false;
         }
-        if (jumpcount != 0) GetComponent<Animator>().SetTrigger("groundtorriger");
+        if (jumpcount != 0) SetAnime("groundtorriger");
 
     }
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
@@ -161,9 +180,16 @@ public class player : MonoBehaviour {
     {
         if (other.gameObject.tag != "Ground"|| isStop) return;
         Debug.Log("ground");
-        GetComponent<Animator>().SetTrigger("groundtorriger");
-        GetComponent<Animator>().ResetTrigger("jumptorriger");
-        GetComponent<Animator>().ResetTrigger("doublejumptorriger");
+        if (isSukebo)
+        {
+            SetAnime("sukebo");
+            jumpcount = 0;
+            SetAnime("groundtorriger");
+            return;
+        }
+        SetAnime("groundtorriger");
+        ReSetAnime("jumptorriger");
+        ReSetAnime("doublejumptorriger");
         isjump = false;
         jumpcount = 0;
     }
@@ -179,10 +205,10 @@ public class player : MonoBehaviour {
         isSriding = false;
         Debug.Log("障害物に当たり申した");
         count = 0;
-        GetComponent<Animator>().SetTrigger("stop");
-        GetComponent<Animator>().ResetTrigger("groundtorriger");
-        GetComponent<Animator>().ResetTrigger("sridingtorriger");
-        GetComponent<Animator>().ResetTrigger("jumptorriger");
+        SetAnime("stop");
+        ReSetAnime("groundtorriger");
+        ReSetAnime("sridingtorriger");
+        ReSetAnime("jumptorriger");
     }
     private void ItemGet()
     {
@@ -202,20 +228,30 @@ public class player : MonoBehaviour {
     {
         Debug.Log("パラソル");
     }
+    //スケボーに乗っている状態
     private void sukebo()
     {
         isSukebo = true;
-        GetComponent<Animator>().SetBool("sukeboBool", true);
-        GetComponent<Animator>().SetTrigger("sukebo");
-        GetComponent<Animator>().ResetTrigger("groundtorriger");
-        GetComponent<Animator>().ResetTrigger("sridingtorriger");
-        GetComponent<Animator>().ResetTrigger("jumptorriger");
-        Debug.Log("スケボー");
+        GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
+        SetAnime("sukebo");
+        ReSetAnime("groundtorriger");
+        ReSetAnime("sridingtorriger");
+        ReSetAnime("jumptorriger");
+        sukeboCount = 0;
+        backSpeed.SpeedChange(4.0f);
     }
     private void pan()
     {
         panCount++;
-        Debug.Log("パン");
+        backSpeed.PanSpeedUp();
+    }
+    private void SetAnime(string torriger)
+    {
+        GetComponent<Animator>().SetTrigger(torriger);
+    }
+    private void ReSetAnime(string torriger)
+    {
+        GetComponent<Animator>().ResetTrigger(torriger);
     }
     ///前に作ったコマ割りでアニメーション動かすプログラム(使いません)
      /*
