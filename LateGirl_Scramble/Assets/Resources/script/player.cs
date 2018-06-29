@@ -33,12 +33,12 @@ public class player : MonoBehaviour {
 
     [SerializeField]
     private Timer time;//timerスクリプトから時間を持ってくるように作成
-    private BackGroundMove backSpeed;
+    private BackSpeed backSpeed;
 
     // Use this for initialization
     void Start()
     {
-        backSpeed = GameObject.Find("BackGround").gameObject.GetComponent<BackSpeed>
+        backSpeed = GameObject.Find("BackGround").gameObject.GetComponent<BackSpeed>();
         Xposition = transform.position.x;
         //デバッグ
         Debug.Log(time.Count);
@@ -94,7 +94,7 @@ public class player : MonoBehaviour {
     {
         if (sukeboCount >= sukeboTime)
         {
-            backSpeed.SpeedChange(2.0f); 
+            backSpeed.SpeedChange(0f); 
             Debug.Log("スケボー解除");
             isSukebo = false;
             GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
@@ -238,7 +238,7 @@ public class player : MonoBehaviour {
         ReSetAnime("sridingtorriger");
         ReSetAnime("jumptorriger");
         sukeboCount = 0;
-        backSpeed.SpeedChange(4.0f);
+        backSpeed.SpeedChange(0.2f);
     }
     private void pan()
     {
