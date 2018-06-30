@@ -12,6 +12,7 @@ public class GimmickManager : MonoBehaviour {
 	private float GimickSpeed = 0.15f;
 	[SerializeField]
 	private float BackEndPosition = 10;
+    bool isGorl=false;
     //[SerializeField]
     //private GameObject gimmick;
     float count=0;
@@ -40,26 +41,30 @@ public class GimmickManager : MonoBehaviour {
         gimmickRocket.transform.Translate(-1*GimickSpeed, 0, 0);
         gimmickCar.transform.Translate(-1 * GimickSpeed, 0, 0);
         */
-        if (time.Count + 0.01 >= time.CountLimit)
+        if (time.Count < time.CountLimit)
         {
-            transform.position = new Vector3(-25f, gimmickPosition.y, 0); ;
+            isGorl = true;
+            transform.position = new Vector3(-25f, gimmickPosition.y, 0);
         }
-        transform.Translate(-1 * GimickSpeed, 0, 0);
-        if (GimickBack == true)
-		{
-            if (transform.position.x < (-BackEndPosition))
+        if (!isGorl)
+        {
+            transform.Translate(-1 * GimickSpeed, 0, 0);
+            if (GimickBack == true)
             {
-                /*
-                rand = Random.Range(0, 10);
-                transX = rand <= 7 ? 25f : BackEndPosition + 25f;
-                */
-                transform.position = new Vector3(25f, gimmickPosition.y, 0);
+                if (transform.position.x < (-1 * BackEndPosition))
+                {
+                    /*
+                    rand = Random.Range(0, 10);
+                    transX = rand <= 7 ? 25f : BackEndPosition + 25f;
+                    */
+                    transform.position = new Vector3(25f, gimmickPosition.y, 0);
+                }
+                /*if(time.Count <= time.CountLimit)
+                {
+                    Destroy(gameObject);
+                }*/
             }
-			/*if(time.Count <= time.CountLimit)
-			{
-				Destroy(gameObject);
-			}*/
-		}
+        }
     }
     private void OnTriggerEnter2D(Collider2D collider)
     {

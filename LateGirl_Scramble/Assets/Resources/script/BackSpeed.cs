@@ -8,6 +8,7 @@ public class BackSpeed : MonoBehaviour {
     private float panSpeed = 0f;
     [SerializeField]
     private Timer time;
+    [SerializeField]
     private float timeCount=0f;
     public void SpeedChange(float speed)
     {
@@ -34,9 +35,13 @@ public class BackSpeed : MonoBehaviour {
 
             if (panSpeed > 0.0f)
             {
-                panSpeed = timeCount;
+                panSpeed -= timeCount;
             }
-            timeCount += Time.deltaTime;
+            else
+            {
+                panSpeed = 0f;
+            }
+            timeCount += Time.deltaTime/1000;
         }
 
         

@@ -67,13 +67,7 @@ public class player : MonoBehaviour {
         {
             speed = 0.2f;
         }
-        if (!isItem)
-        {
-            if (transform.position.x >= Xposition)
-            {
-                speed = 0f;
-            }
-        }
+        
         count += Time.deltaTime;
         //障害物に当たったら時間でアニメーションを変える
         if (isStop==true)
@@ -86,6 +80,12 @@ public class player : MonoBehaviour {
                 speed = 0.2f;
                 Debug.Log(count);
                 isStop = false;
+            }
+        }else if(!isGorl)
+        {
+            if (transform.position.x >= Xposition)
+            {
+                speed = 0f;
             }
         }
     }
@@ -140,7 +140,9 @@ public class player : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
         {
             isjump = true;
+            isSriding = false;
             ReSetAnime("groundtorriger");
+            ReSetAnime("sridingtorriger");
             jumpcount++;
             if (jumpcount == 1)
             {
@@ -160,11 +162,13 @@ public class player : MonoBehaviour {
     public void Sriding()
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
-        if (isjump|| isStop) { return; }
+        if (isjump|| isStop||isdoublejump) { return; }
         if (Input.GetKey("a"))
         {
             SetAnime("sridingtorriger");
             ReSetAnime("groundtorriger");
+            ReSetAnime("jumptorriger");
+            ReSetAnime("doublejumptorriger");
             isSriding = true;
             
         }
@@ -199,16 +203,19 @@ public class player : MonoBehaviour {
             item = collision.gameObject.GetComponent<Item>();
             ItemGet();
         }
+        if (speed!=0.0f) return;
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
         isStop = true;
         isjump = false;
         isSriding = false;
         Debug.Log("障害物に当たり申した");
         count = 0;
+        speed = -0.2f;
         SetAnime("stop");
         ReSetAnime("groundtorriger");
         ReSetAnime("sridingtorriger");
         ReSetAnime("jumptorriger");
+        ReSetAnime("doublejumptorriger");
     }
     private void ItemGet()
     {
