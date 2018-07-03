@@ -210,7 +210,7 @@ public class player : MonoBehaviour {
         isSriding = false;
         Debug.Log("障害物に当たり申した");
         count = 0;
-        speed = -0.2f;
+        speed = -0.1f;
         SetAnime("stop");
         ReSetAnime("groundtorriger");
         ReSetAnime("sridingtorriger");
@@ -251,6 +251,10 @@ public class player : MonoBehaviour {
     {
         panCount++;
         backSpeed.PanSpeedUp();
+    }
+    public int panReturn()
+    {
+        return panCount;
     }
     private void SetAnime(string torriger)
     {
