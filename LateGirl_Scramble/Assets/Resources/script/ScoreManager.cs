@@ -14,20 +14,18 @@ public class ScoreManager : MonoBehaviour {
         instance = this;
     }
     */
-    public static int pan;
+    public static int pan=0;
     [SerializeField]
     private Image[] numberImages;
     private player player;
-    [SerializeField]
-    private Gorl gorl;
+    
     [SerializeField]
     private Sprite[] spriteNumbers = new Sprite[10];
     // Use this for initialization
-    void Start () {
+    void Start() {
         numberImages[0].sprite = spriteNumbers[pan / 10];
         numberImages[1].sprite = spriteNumbers[pan % 10];
-    }
-	
+    }	
     public void panScore(int panCount)
     {
         pan = panCount;

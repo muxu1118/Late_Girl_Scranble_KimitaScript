@@ -42,6 +42,7 @@ public class player : MonoBehaviour {
         backSpeed = GameObject.Find("BackGround").gameObject.GetComponent<BackSpeed>();
         Xposition = transform.position.x;
         Score.panScore(0);
+        panCount = 0;
         time.gorlGone(false);
         //デバッグ
         Debug.Log(transform.position.x);
@@ -104,6 +105,8 @@ public class player : MonoBehaviour {
             isSukebo = false;
             GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
             ReSetAnime("sukebo");
+            ReSetAnime("sukeboJump");
+            ReSetAnime("sukeboDoubleJump");
             if (jumpcount != 0)
             {
                 SetAnime("jumptorriger");

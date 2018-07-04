@@ -48,7 +48,7 @@ public class GimmickManager : MonoBehaviour {
         }
         if (!isGorl)
         {
-            transform.Translate(-1 * GimickSpeed, 0, 0);
+            //transform.Translate(-1 * GimickSpeed, 0, 0);
             if (GimickBack == true)
             {
                 if (transform.position.x < (-1 * BackEndPosition))
@@ -56,8 +56,8 @@ public class GimmickManager : MonoBehaviour {
                     /*
                     rand = Random.Range(0, 10);
                     transX = rand <= 7 ? 25f : BackEndPosition + 25f;
-                    */
                     transform.position = new Vector3(25f, gimmickPosition.y, 0);
+                    */
                 }
                 /*if(time.Count <= time.CountLimit)
                 {

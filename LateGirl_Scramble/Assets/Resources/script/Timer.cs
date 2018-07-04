@@ -9,6 +9,9 @@ public class Timer : MonoBehaviour {
     private GameObject showSprite;
     [SerializeField]
     private Image[] numberImages;
+
+    [SerializeField]
+    private Sprite[] scoreImages;
     [SerializeField]
     private static float count = 120f;
     private static bool stop = false;
@@ -68,6 +71,7 @@ public class Timer : MonoBehaviour {
         if(stop)
         {
             timerSet();
+            numberImages[4].sprite = scoreImages[Hako()];
         }
 
 
@@ -81,6 +85,8 @@ public class Timer : MonoBehaviour {
         numberImages[1].sprite = spriteNumbers[(int)seconds / 10];
         numberImages[2].sprite = spriteNumbers[(int)seconds % 10];
         numberImages[3].sprite = spriteNumbers[(int)(seconds * 10 % 10)];
+
+        numberImages[4].sprite = scoreImages[Hako()];
 
 
         /*
@@ -140,4 +146,22 @@ public class Timer : MonoBehaviour {
     {
         stop = isGorl;
     }
-} 
+    private int Hako()
+    {
+        if (count >= 30f)
+        {
+            return 0;
+        } else if (count > 20f)
+        {
+            return 1;
+        }
+        else if (count > 10f)
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
+    }
+    } 
