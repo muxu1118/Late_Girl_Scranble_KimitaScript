@@ -10,7 +10,8 @@ public class Timer : MonoBehaviour {
     [SerializeField]
     private Image[] numberImages;
     [SerializeField]
-    private float count = 120f;
+    private static float count = 120f;
+    private static bool stop = false;
     /// <summary>
     ///ゲームの終了する時間
     /// </summary>
@@ -27,6 +28,7 @@ public class Timer : MonoBehaviour {
 
     [SerializeField]
     private Sprite[] spriteNumbers = new Sprite[10];
+   
     //ほかのスクリプトから呼び出せるように
     public float Count
     {
@@ -44,6 +46,44 @@ public class Timer : MonoBehaviour {
         }
     }
 
+    void Start()
+    {
+        if (!stop) count = 120f;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (count > countLimit&&!stop)
+        {
+            count -= Time.deltaTime; //スタートしてからの秒数を格納
+            timerSet();
+
+
+        }else
+        {
+            stop = true;
+        }
+        if(stop)
+        {
+            timerSet();
+        }
+
+
+    }
+    private void timerSet()
+    {
+        //int limit = (int)countLimit;
+        int minute = (int)count / 60;
+        float seconds = count - minute * 60;
+        numberImages[0].sprite = spriteNumbers[minute];//他にもTimerScriptの付いているオブジェクトがあって、そちらでnumberImagesが設定されていなかったのがバグの原因でした
+        numberImages[1].sprite = spriteNumbers[(int)seconds / 10];
+        numberImages[2].sprite = spriteNumbers[(int)seconds % 10];
+        numberImages[3].sprite = spriteNumbers[(int)(seconds * 10 % 10)];
+
+
+        /*
     private void Awake()
     {
        
@@ -60,38 +100,6 @@ public class Timer : MonoBehaviour {
             { '9', spriteNumbers[9] },
         };
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        if (count > countLimit)
-        {
-            count -= Time.deltaTime; //スタートしてからの秒数を格納
-            timerSet();
-
-        }
-        else
-        {
-            count = countLimit;//ゴールしたらゴールタイムをカウントにする（少し時間がずれる場合があるため）
-            timerSet();
-
-        }
-
-
-    }
-    private void timerSet()
-    {
-        //int limit = (int)countLimit;
-        int minute = (int)count / 60;
-        float seconds = count - minute * 60;
-        numberImages[0].sprite = spriteNumbers[minute];//他にもTimerScriptの付いているオブジェクトがあって、そちらでnumberImagesが設定されていなかったのがバグの原因でした
-        numberImages[1].sprite = spriteNumbers[(int)seconds / 10];
-        numberImages[2].sprite = spriteNumbers[(int)seconds % 10];
-        numberImages[3].sprite = spriteNumbers[(int)(seconds * 10 % 10)];
-        
-
-        /*
         var numSprite = GetComponent<time>();
         numSprite.Value = (int)count; // ここで「1234」の値を指定
         
@@ -127,5 +135,9 @@ public class Timer : MonoBehaviour {
             numSpriteGird[i].transform.parent = transform;
         }
         */
+    }
+    public void gorlGone(bool isGorl)
+    {
+        stop = isGorl;
     }
 } 

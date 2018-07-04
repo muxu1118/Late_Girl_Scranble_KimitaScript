@@ -14,18 +14,24 @@ public class ScoreManager : MonoBehaviour {
         instance = this;
     }
     */
+    public static int pan;
     [SerializeField]
     private Image[] numberImages;
     private player player;
     [SerializeField]
+    private Gorl gorl;
+    [SerializeField]
     private Sprite[] spriteNumbers = new Sprite[10];
     // Use this for initialization
     void Start () {
-        /*player = GetComponent<player>();
-        numberImages[0].sprite = spriteNumbers[player.panReturn() / 10];//他にもTimerScriptの付いているオブジェクトがあって、そちらでnumberImagesが設定されていなかったのがバグの原因でした
-        numberImages[1].sprite = spriteNumbers[player.panReturn() % 10];*/
+        numberImages[0].sprite = spriteNumbers[pan / 10];
+        numberImages[1].sprite = spriteNumbers[pan % 10];
     }
 	
+    public void panScore(int panCount)
+    {
+        pan = panCount;
+    }
 	// Update is called once per frame
 	void Update () {
         

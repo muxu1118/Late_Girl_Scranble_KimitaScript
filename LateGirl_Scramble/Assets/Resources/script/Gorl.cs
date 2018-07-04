@@ -18,12 +18,13 @@ public class Gorl : MonoBehaviour {
     private float MVol = 1f;
     [SerializeField]
     bool push = false;
-
+    bool isGorl = false;
     [SerializeField]
     private float fadeAudio = 0.1f;
 
     // Use this for initialization
     void Start () {
+        isGorl = false;
         //最初はラベルを表示させない
         GorlLabelObject.SetActive(false);
     }
@@ -46,8 +47,17 @@ public class Gorl : MonoBehaviour {
 				push = false;
 			}
 		}
+        if (isGorl)
+        {
+            SceneLoadManager.LoadScene(nextScene);
+            isGorl = false;
+        }
 	}
 
+    public void InGorl()
+    {
+        isGorl = true;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //ここからリザルト遷移
@@ -55,8 +65,7 @@ public class Gorl : MonoBehaviour {
         {
 			push = true;
             Debug.Log("壁に当たった");
-
-			SceneLoadManager.LoadScene(nextScene);
+            isGorl = true;
         }
     }
 }

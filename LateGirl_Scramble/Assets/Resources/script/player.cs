@@ -30,7 +30,8 @@ public class player : MonoBehaviour {
     bool isItem = false;//アイテムをとった状態かどうか
     bool isSukebo = false;
     bool isSukeboJump = false;
-
+    [SerializeField]
+    private ScoreManager Score;
     [SerializeField]
     private Timer time;//timerスクリプトから時間を持ってくるように作成
     private BackSpeed backSpeed;
@@ -40,13 +41,16 @@ public class player : MonoBehaviour {
     {
         backSpeed = GameObject.Find("BackGround").gameObject.GetComponent<BackSpeed>();
         Xposition = transform.position.x;
+        Score.panScore(0);
+        time.gorlGone(false);
         //デバッグ
-        Debug.Log(time.Count);
+        Debug.Log(transform.position.x);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         transform.Translate(speed, 0, 0);
         //ゲーム中だけ動かせるよう
         if (time.Count > time.CountLimit&&!isSukebo){
@@ -65,6 +69,7 @@ public class player : MonoBehaviour {
         //ゲーム終了時にどっか行くように
         if (isGorl)
         {
+            time.gorlGone(isGorl);
             speed = 0.2f;
         }
         
@@ -251,10 +256,16 @@ public class player : MonoBehaviour {
     {
         panCount++;
         backSpeed.PanSpeedUp();
+        Score.panScore(panCount);
     }
     public int panReturn()
     {
         return panCount;
+    }
+    
+    public void InGorl()
+    {
+        isGorl = true;
     }
     private void SetAnime(string torriger)
     {
