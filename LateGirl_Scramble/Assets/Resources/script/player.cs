@@ -17,7 +17,7 @@ public class player : MonoBehaviour {
     private int panCount = 0;//panをとった数をカウント
     float count;//時間のカウント
     float sukeboCount;//スケボーの時間をカウント
-    float sukeboTime=10f;//スケボーの時間制限
+    float sukeboTime=5f;//スケボーの時間制限
     [SerializeField]
     float minite=3;//障害物にあたって止まる時間
     float Xposition;
@@ -203,12 +203,14 @@ public class player : MonoBehaviour {
         jumpcount = 0;
     }
     private void OnTriggerEnter2D(Collider2D collision)
-    {
+    { 
+
         if (collision.gameObject.tag == "Item") { 
             item = collision.gameObject.GetComponent<Item>();
             ItemGet();
         }
         if (speed!=0.0f) return;
+        if (isSukebo) return;
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
         isStop = true;
         isjump = false;
@@ -216,6 +218,7 @@ public class player : MonoBehaviour {
         Debug.Log("障害物に当たり申した");
         count = 0;
         speed = -0.1f;
+        jumpcount = 0;
         SetAnime("stop");
         ReSetAnime("groundtorriger");
         ReSetAnime("sridingtorriger");
@@ -250,7 +253,7 @@ public class player : MonoBehaviour {
         ReSetAnime("sridingtorriger");
         ReSetAnime("jumptorriger");
         sukeboCount = 0;
-        backSpeed.SpeedChange(0.2f);
+        backSpeed.SpeedChange(0.1f);
     }
     private void pan()
     {
