@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class player : MonoBehaviour {
     [SerializeField]
@@ -11,20 +12,36 @@ public class player : MonoBehaviour {
 
     [SerializeField]
     private AudioClip seJump;//ジャンプのSE
+	[Range(0f,100f)][SerializeField]
+	private float seJumpVol;
     [SerializeField]
     private AudioClip seSliding;//スライディングのSE
+	[Range(0f, 100f)][SerializeField]
+	private float seSlidingVol;
     [SerializeField]
-    private AudioClip seAccid;//ぶつかった時のSE
+	private AudioClip seAccid;//ぶつかった時のSE
+	[Range(0f,100f)][SerializeField]
+	private float seAccidVol;
     [SerializeField]
     private AudioClip seLand;//着地のSE
+	[Range(0f, 100f)][SerializeField]
+	private float seLandVol;
     [SerializeField]
     private AudioClip seDoubleJump;//二段ジャンプのSE
+    [Range(0f,100f)][SerializeField]
+	private float seDoubleJumpVol;
     [SerializeField]
     private AudioClip seChaim;//チャイムのSE
+    [Range(0f,100f)][SerializeField]
+	private float seChaimVol;
     [SerializeField]
     private AudioClip sePan;//パンのSE
+    [Range(0f,100f)][SerializeField]
+	private float sePanVol;
     [SerializeField]
     private AudioClip seSukebo;//スケボーのSE
+    [Range(0f,100f)][SerializeField]
+	private float seSukeboVol;
     private AudioSource audio;//これにPlay--で音を流せる
 
     GameObject itemObject;
@@ -344,30 +361,31 @@ public class player : MonoBehaviour {
     {
         GetComponent<Animator>().ResetTrigger(torriger);
     }
-    ///前に作ったコマ割りでアニメーション動かすプログラム(使いません)
-     /*
-    public Sprite[] walk; //プレイヤーの歩くスプライト配列
-    int animIndex; //歩くアニメーションのインデックス
-    bool walkCheck; //歩いているかのチェック
-    public float flame = 0f;//フレームチェック
-    
-    void update()
-    {
-        flame += 0.1f;
-        if (flame <= 20)
-        {
-            GetComponent<SpriteRenderer>().sprite = walk[0];
-        }else if (flame >= 20||flame <= 40)
-        {
-            GetComponent<SpriteRenderer>().sprite = walk[1];
-        }else if (flame <= 60|| flame >= 40)
-        {
-            GetComponent<SpriteRenderer>().sprite = walk[2];
-        }
-        else
-        {
-            flame = 0;
-        }
-    }
-    */
+	///前に作ったコマ割りでアニメーション動かすプログラム(使いません)
+	/*
+   public Sprite[] walk; //プレイヤーの歩くスプライト配列
+   int animIndex; //歩くアニメーションのインデックス
+   bool walkCheck; //歩いているかのチェック
+   public float flame = 0f;//フレームチェック
+
+   void update()
+   {
+	   flame += 0.1f;
+	   if (flame <= 20)
+	   {
+		   GetComponent<SpriteRenderer>().sprite = walk[0];
+	   }else if (flame >= 20||flame <= 40)
+	   {
+		   GetComponent<SpriteRenderer>().sprite = walk[1];
+	   }else if (flame <= 60|| flame >= 40)
+	   {
+		   GetComponent<SpriteRenderer>().sprite = walk[2];
+	   }
+	   else
+	   {
+		   flame = 0;
+	   }
+   }
+   */
+
 }
