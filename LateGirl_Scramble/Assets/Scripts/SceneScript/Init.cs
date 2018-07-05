@@ -6,7 +6,12 @@ public class Init : MonoBehaviour {
 
 	bool onLoad = false;
 
-    void Update()
+	private void Awake()
+	{
+		Screen.SetResolution(1920, 1080, Screen.fullScreen);
+	}
+
+	void Update()
     {
         if (!Application.isShowingSplashScreen && !onLoad)
         {
