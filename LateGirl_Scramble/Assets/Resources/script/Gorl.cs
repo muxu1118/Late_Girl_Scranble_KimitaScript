@@ -53,6 +53,7 @@ public class Gorl : MonoBehaviour {
 			aftergoal = 0;
             SceneLoadManager.LoadScene(nextScene);
             isGorl = false;
+			return;
         }
 	}
 

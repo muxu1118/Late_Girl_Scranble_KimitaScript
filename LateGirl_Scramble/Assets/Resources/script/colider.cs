@@ -41,6 +41,7 @@ public class colider : MonoBehaviour
 				Debug.Log("壁に当たった");
 				push = true;
 				SceneLoadManager.LoadScene(nextScene);
+				return;
 			}
 		}
 	}
