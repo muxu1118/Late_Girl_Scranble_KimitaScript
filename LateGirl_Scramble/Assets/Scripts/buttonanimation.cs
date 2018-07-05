@@ -45,7 +45,11 @@ public class buttonanimation : MonoBehaviour {
             }
 		}
 
+		if(Input.GetKey("space")){
+			StartPush();
+		}
 	}
+
 	public void StartPush(){
 		push = true;
 		_Clicks.Play();
