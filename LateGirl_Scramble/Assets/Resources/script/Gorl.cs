@@ -21,7 +21,8 @@ public class Gorl : MonoBehaviour {
     bool isGorl = false;
     [SerializeField]
     private float fadeAudio = 0.1f;
-
+	//[SerializeField]
+	public int aftergoal = 1;
     // Use this for initialization
     void Start () {
         isGorl = false;
@@ -49,7 +50,7 @@ public class Gorl : MonoBehaviour {
 		}
         if (isGorl)
         {
-
+			aftergoal = 0;
             SceneLoadManager.LoadScene(nextScene);
             isGorl = false;
         }
@@ -71,4 +72,10 @@ public class Gorl : MonoBehaviour {
             isGorl = true;
         }
     }
+	public int AfterGoal{
+		get
+		{
+			return aftergoal;
+		}
+	}
 }

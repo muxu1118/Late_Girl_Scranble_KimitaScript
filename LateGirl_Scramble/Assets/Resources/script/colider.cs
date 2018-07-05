@@ -12,12 +12,12 @@ public class colider : MonoBehaviour
     private float MVol = 1f;
     [SerializeField]
     bool push = false;
-
+	private Gorl goal;
     [SerializeField]
     private float fadeAudio = 0.1f;
 	void Update()
     {
-        if (push == true)
+		if (push == true)
         {
             _audios.volume = MVol -= fadeAudio;
 
@@ -30,15 +30,18 @@ public class colider : MonoBehaviour
 	// Use this for initialization
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		
-		//ここからリザルト遷移
-		if (collision.gameObject.tag == "Player")
-		{
-			
 
-			Debug.Log("壁に当たった");
-			push = true;
-			SceneLoadManager.LoadScene(nextScene);
+		if (goal.AfterGoal == 1)
+		{
+			//ここからリザルト遷移
+			if (collision.gameObject.tag == "Player" && goal.AfterGoal == 1)
+			{
+
+
+				Debug.Log("壁に当たった");
+				push = true;
+				SceneLoadManager.LoadScene(nextScene);
+			}
 		}
 	}
 }
