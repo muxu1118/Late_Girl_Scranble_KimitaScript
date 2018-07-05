@@ -16,7 +16,7 @@ public class BackGroundMove : MonoBehaviour {
     private GameObject[] sukebo = new GameObject[5];
     [SerializeField]
     GameObject[] pattern = new GameObject[4];
-    warp[] warpScript = new warp[4];
+	private warp[] warpScript = new warp[4];
     private bool isChange=false;
     private int rand;
     public float BackSpeed
