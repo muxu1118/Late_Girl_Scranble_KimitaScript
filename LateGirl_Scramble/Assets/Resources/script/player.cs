@@ -7,7 +7,25 @@ public class player : MonoBehaviour {
     private float speed = 0f; //プレイヤーの速さ
     [SerializeField]
     float jumpH = 7f;//ジャンプの高さ
-    
+
+
+    [SerializeField]
+    private AudioClip seJump;//ジャンプのSE
+    [SerializeField]
+    private AudioClip seSliding;//スライディングのSE
+    [SerializeField]
+    private AudioClip seAccid;//ぶつかった時のSE
+    [SerializeField]
+    private AudioClip seLand;//着地のSE
+    [SerializeField]
+    private AudioClip seDoubleJump;//二段ジャンプのSE
+    [SerializeField]
+    private AudioClip seChaim;//チャイムのSE
+    [SerializeField]
+    private AudioClip sePan;//パンのSE
+    [SerializeField]
+    private AudioClip seSukebo;//スケボーのSE
+    private AudioSource audio;//これにPlay--で音を流せる
 
     GameObject itemObject;
     Item item;//Itemスクリプトから何に当たったかを確認するため
@@ -35,11 +53,12 @@ public class player : MonoBehaviour {
     [SerializeField]
     private Timer time;//timerスクリプトから時間を持ってくるように作成
     private BackSpeed backSpeed;
-
+    
     // Use this for initialization
     void Start()
     {
         backSpeed = GameObject.Find("BackGround").gameObject.GetComponent<BackSpeed>();
+        audio = GetComponent<AudioSource>();
         Xposition = transform.position.x;
         Score.panScore(0);
         panCount = 0;
@@ -47,7 +66,6 @@ public class player : MonoBehaviour {
         //デバッグ
         Debug.Log(transform.position.x);
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -104,9 +122,11 @@ public class player : MonoBehaviour {
             Debug.Log("スケボー解除");
             isSukebo = false;
             GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
+
             ReSetAnime("sukebo");
             ReSetAnime("sukeboJump");
             ReSetAnime("sukeboDoubleJump");
+            SetAnime("groundtorriger");
             if (jumpcount != 0)
             {
                 SetAnime("jumptorriger");
@@ -125,12 +145,15 @@ public class player : MonoBehaviour {
             jumpcount++;
             if (jumpcount == 1)
             {
+                audio.PlayOneShot(seJump);
                 SetAnime("sukeboJump");
                 ReSetAnime("sukebo");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             }
             else
             {
+
+                audio.PlayOneShot(seDoubleJump);
                 Debug.Log(jumpcount);
                 SetAnime("sukeboDoubleJump");
                 ReSetAnime("sukeboJump");
@@ -154,11 +177,13 @@ public class player : MonoBehaviour {
             jumpcount++;
             if (jumpcount == 1)
             {
+                audio.PlayOneShot(seJump);
                 SetAnime("jumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             }
             else
             {
+                audio.PlayOneShot(seDoubleJump);
                 Debug.Log(jumpcount);
                 SetAnime("doublejumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
@@ -171,8 +196,13 @@ public class player : MonoBehaviour {
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
         if (isjump|| isStop||isdoublejump) { return; }
+        
         if (Input.GetKey("a"))
         {
+            if (Input.GetKeyDown("a"))
+            {
+                audio.PlayOneShot(seSliding);
+            }
             SetAnime("sridingtorriger");
             ReSetAnime("groundtorriger");
             ReSetAnime("jumptorriger");
@@ -192,6 +222,10 @@ public class player : MonoBehaviour {
     {
         if (other.gameObject.tag != "Ground"|| isStop) return;
         Debug.Log("ground");
+        if (!isSriding)
+        {
+            audio.PlayOneShot(seLand);
+        }
         if (isSukebo)
         {
             SetAnime("sukebo");
@@ -215,6 +249,7 @@ public class player : MonoBehaviour {
         if (speed!=0.0f) return;
         if (isSukebo) return;
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
+        audio.PlayOneShot(seAccid);
         isStop = true;
         isjump = false;
         isSriding = false;
@@ -249,6 +284,7 @@ public class player : MonoBehaviour {
     //スケボーに乗っている状態
     private void sukebo()
     {
+        audio.PlayOneShot(seSukebo);
         isSukebo = true;
         GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
         SetAnime("sukebo");
@@ -260,6 +296,8 @@ public class player : MonoBehaviour {
     }
     private void pan()
     {
+
+        audio.PlayOneShot(sePan);
         panCount++;
         backSpeed.PanSpeedUp();
         Score.panScore(panCount);

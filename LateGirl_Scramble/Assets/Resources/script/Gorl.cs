@@ -49,6 +49,7 @@ public class Gorl : MonoBehaviour {
 		}
         if (isGorl)
         {
+
             SceneLoadManager.LoadScene(nextScene);
             isGorl = false;
         }
@@ -63,7 +64,9 @@ public class Gorl : MonoBehaviour {
         //ここからリザルト遷移
         if (collision.gameObject.tag == "Player")
         {
-			push = true;
+
+            GorlLabelObject.SetActive(true);
+            push = true;
             Debug.Log("壁に当たった");
             isGorl = true;
         }
