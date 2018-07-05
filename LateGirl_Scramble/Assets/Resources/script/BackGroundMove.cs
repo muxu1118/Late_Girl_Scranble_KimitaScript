@@ -9,6 +9,11 @@ public class BackGroundMove : MonoBehaviour {
     private float BackSceneSpeed = -0.1f;
     [SerializeField]
     private Timer time;
+    private static int panIntCount = 0;
+    [SerializeField]
+    private GameObject[] pan = new GameObject[10];
+    [SerializeField]
+    private GameObject[] sukebo = new GameObject[5];
     [SerializeField]
     GameObject[] pattern = new GameObject[4];
     warp[] warpScript = new warp[4];
@@ -44,6 +49,17 @@ public class BackGroundMove : MonoBehaviour {
             if (isChange)
             {
                 Change();
+                if (panIntCount % 2 == 0 && panIntCount % 2 <= 10)
+                {
+                    pan[panIntCount / 2].transform.position = new Vector3(64f, Random.Range(-4f, 0), 0);
+                    if (panIntCount % 4 == 0 && panIntCount % 4 <= 5)
+                    {
+                        sukebo[panIntCount / 4].transform.position = new Vector3(22.8f, Random.Range(-4f, 0), 0);
+                    }
+                } else if (panIntCount == 1)
+                {
+                    pan[panIntCount - 1].transform.position = new Vector3(18.8f, Random.Range(-4f, 0), 0);
+                }
             }
         }
         else
@@ -56,6 +72,7 @@ public class BackGroundMove : MonoBehaviour {
         rand = Random.Range(0, 4);
         if (warpScript[rand].IsEnd())
         {
+            panIntCount++;
             pattern[rand].transform.position = new Vector3(44.8f, 12.7f-1.0f, 0);
             warpScript[rand].EndFalse();
             isChange = false;

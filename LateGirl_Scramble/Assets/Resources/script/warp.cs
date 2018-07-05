@@ -15,6 +15,7 @@ public class warp : MonoBehaviour {
             isEnd = true;
             BGM.Moving();
         }
+
     }
     public bool IsEnd()
     {
