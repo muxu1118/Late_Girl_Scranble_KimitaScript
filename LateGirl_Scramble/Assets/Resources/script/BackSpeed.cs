@@ -17,7 +17,7 @@ public class BackSpeed : MonoBehaviour {
     //パンのスピードアップ
     public void PanSpeedUp()
     {
-        panSpeed = 0.2f;
+        panSpeed = 0.1f;
         timeCount = 0;
         
     }
@@ -35,7 +35,7 @@ public class BackSpeed : MonoBehaviour {
 
             if (panSpeed > 0.0f)
             {
-                panSpeed -= timeCount;
+                panSpeed -= timeCount/2;
             }
             else
             {

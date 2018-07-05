@@ -28,8 +28,9 @@ public class player : MonoBehaviour {
     private AudioSource audio;//これにPlay--で音を流せる
 
     GameObject itemObject;
+    private string animeState = "";
     Item item;//Itemスクリプトから何に当たったかを確認するため
-    string name;// なににあたったかをいれるはこ
+    string name;// なににあたったかをいれる箱
     private const int maxjump = 2;//二回ジャンプ
     private int jumpcount=0;//ジャンプのカウント
     private int panCount = 0;//panをとった数をカウント
@@ -63,13 +64,13 @@ public class player : MonoBehaviour {
         Score.panScore(0);
         panCount = 0;
         time.gorlGone(false);
+        animeState = "ground";
         //デバッグ
         Debug.Log(transform.position.x);
     }
     // Update is called once per frame
     void Update()
     {
-        
         transform.Translate(speed, 0, 0);
         //ゲーム中だけ動かせるよう
         if (time.Count > time.CountLimit&&!isSukebo){
@@ -89,7 +90,6 @@ public class player : MonoBehaviour {
         if (isGorl)
         {
             time.gorlGone(isGorl);
-            speed = 0.2f;
         }
         
         count += Time.deltaTime;
@@ -99,6 +99,7 @@ public class player : MonoBehaviour {
             //miniteで何秒後に点滅解除
             if (count >= minite)
             {
+                animeState = "ground";
                 SetAnime("groundtorriger");
                 ReSetAnime("stop");
                 speed = 0.2f;
@@ -123,6 +124,7 @@ public class player : MonoBehaviour {
             isSukebo = false;
             GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
 
+            animeState = "ground";
             ReSetAnime("sukebo");
             ReSetAnime("sukeboJump");
             ReSetAnime("sukeboDoubleJump");
@@ -145,15 +147,19 @@ public class player : MonoBehaviour {
             jumpcount++;
             if (jumpcount == 1)
             {
+
+                animeState = "sukeboJump";
                 audio.PlayOneShot(seJump);
                 SetAnime("sukeboJump");
                 ReSetAnime("sukebo");
+                isjump = true;
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             }
             else
             {
-
+                animeState = "sukeboDoubleJump";
                 audio.PlayOneShot(seDoubleJump);
+                isdoublejump = true;
                 Debug.Log(jumpcount);
                 SetAnime("sukeboDoubleJump");
                 ReSetAnime("sukeboJump");
@@ -170,24 +176,28 @@ public class player : MonoBehaviour {
         //クリック、スペースキーを押したとき
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
         {
-            isjump = true;
             isSriding = false;
             ReSetAnime("groundtorriger");
             ReSetAnime("sridingtorriger");
             jumpcount++;
             if (jumpcount == 1)
             {
+                animeState = "jump";
+                isjump = true;
                 audio.PlayOneShot(seJump);
                 SetAnime("jumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             }
             else
             {
+
+                animeState = "DoubleJump";
                 audio.PlayOneShot(seDoubleJump);
                 Debug.Log(jumpcount);
+                ReSetAnime("jumptorriger");
                 SetAnime("doublejumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
-
+                isdoublejump = true;
             }
         }
     }
@@ -195,33 +205,34 @@ public class player : MonoBehaviour {
     public void Sriding()
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
-        if (isjump|| isStop||isdoublejump) { return; }
-        
-        if (Input.GetKey("a"))
+        if (isjump|| isStop||isdoublejump|| jumpcount != 0) { return; }
+        if (Input.GetKey("a")&&animeState!="sriding")
         {
-            if (Input.GetKeyDown("a"))
-            {
-                audio.PlayOneShot(seSliding);
-            }
+            animeState = "sriding";
+            audio.PlayOneShot(seSliding);
             SetAnime("sridingtorriger");
             ReSetAnime("groundtorriger");
-            ReSetAnime("jumptorriger");
-            ReSetAnime("doublejumptorriger");
             isSriding = true;
-            
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
+            {
+                ReSetAnime("sridingtorriger");
+                isSriding = false;
+                return;
+            }
         }
-        else {
+        if (Input.GetKeyUp("a"))
+        {
+            animeState = "ground";
             SetAnime("groundtorriger");
+            ReSetAnime("sridingtorriger");
             isSriding = false;
         }
-        if (jumpcount != 0) SetAnime("groundtorriger");
 
     }
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag != "Ground"|| isStop) return;
-        Debug.Log("ground");
+        if (other.gameObject.tag != "Ground"|| isStop||isSriding) return;
         if (!isSriding)
         {
             audio.PlayOneShot(seLand);
@@ -233,10 +244,24 @@ public class player : MonoBehaviour {
             SetAnime("groundtorriger");
             return;
         }
+        if(jumpcount != 0&&Input.GetKey("a"))
+        {
+            animeState = "sriding";
+            SetAnime("sridingtorriger");
+            ReSetAnime("jumptorriger");
+            ReSetAnime("doublejumptorriger");
+            isjump = false;
+            isdoublejump = false;
+            jumpcount = 0;
+            return;
+        }
+        animeState = "ground";
         SetAnime("groundtorriger");
+        ReSetAnime("sridingtorriger");
         ReSetAnime("jumptorriger");
         ReSetAnime("doublejumptorriger");
         isjump = false;
+        isdoublejump = false;
         jumpcount = 0;
     }
     private void OnTriggerEnter2D(Collider2D collision)
