@@ -10,10 +10,25 @@ public class BackSpeed : MonoBehaviour {
     private Timer time;
     [SerializeField]
     private float timeCount=0f;
+
+    public float BSpeed
+    {
+        get{
+            return BackSceneSpeed;
+        }
+    }
+    public float PanSpeed
+    {
+        get
+        {
+            return panSpeed;
+        }
+    }
     public void SpeedChange(float speed)
     {
         BackSceneSpeed = speed;
     }
+    
     //パンのスピードアップ
     public void PanSpeedUp()
     {

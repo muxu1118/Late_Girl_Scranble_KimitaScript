@@ -66,12 +66,19 @@ public class player : MonoBehaviour {
     bool isItem = false;//アイテムをとった状態かどうか
     bool isSukebo = false;
     bool isSukeboJump = false;
+    bool muteki = false;
+    float mutekiCount=0;
+    float mutekiTime = 0;
     [SerializeField]
     private ScoreManager Score;
     [SerializeField]
     private Timer time;//timerスクリプトから時間を持ってくるように作成
     private BackSpeed backSpeed;
-    
+    [SerializeField]
+    Sprite sp;
+    [SerializeField]
+    Sprite playerSp;
+    SpriteRenderer sr;
     // Use this for initialization
     void Start()
     {
@@ -82,6 +89,7 @@ public class player : MonoBehaviour {
         panCount = 0;
         time.gorlGone(false);
         animeState = "ground";
+        sr = gameObject.GetComponent<SpriteRenderer>();
         //デバッグ
         Debug.Log(transform.position.x);
     }
@@ -108,7 +116,8 @@ public class player : MonoBehaviour {
         {
             time.gorlGone(isGorl);
         }
-        
+
+        mutekiCount += Time.deltaTime;
         count += Time.deltaTime;
         //障害物に当たったら時間でアニメーションを変える
         if (isStop==true)
@@ -120,14 +129,24 @@ public class player : MonoBehaviour {
                 SetAnime("groundtorriger");
                 ReSetAnime("stop");
                 speed = 0.2f;
+                mutekiCount = 0;
                 Debug.Log(count);
                 isStop = false;
+                muteki = true;
             }
         }else if(!isGorl)
         {
             if (transform.position.x >= Xposition)
             {
                 speed = 0f;
+            }
+        }
+        if (muteki)
+        {
+            if (mutekiCount >= minite+2f)
+            {
+                mutekiTime = 0;
+                muteki = false;
             }
         }
     }
@@ -146,6 +165,8 @@ public class player : MonoBehaviour {
             ReSetAnime("sukeboJump");
             ReSetAnime("sukeboDoubleJump");
             SetAnime("groundtorriger");
+            muteki = true;
+            mutekiCount = 0;
             if (jumpcount != 0)
             {
                 SetAnime("jumptorriger");
@@ -282,14 +303,14 @@ public class player : MonoBehaviour {
         jumpcount = 0;
     }
     private void OnTriggerEnter2D(Collider2D collision)
-    { 
+    {
 
-        if (collision.gameObject.tag == "Item") { 
+        if (collision.gameObject.tag == "Item") {
             item = collision.gameObject.GetComponent<Item>();
             ItemGet();
         }
-        if (speed!=0.0f) return;
-        if (isSukebo) return;
+        if (speed != 0.0f) return;
+        if (isSukebo || muteki) return;
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
         audio.PlayOneShot(seAccid);
         isStop = true;
