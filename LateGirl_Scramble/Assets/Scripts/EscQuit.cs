@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EscQuit : MonoBehaviour
 {
@@ -12,5 +13,10 @@ public class EscQuit : MonoBehaviour
 			Application.Quit();
 			return;
 		}
+		if (Input.GetKey(KeyCode.F2))
+        {
+			SceneManager.LoadScene("Init");
+            return;
+        }
 	}
 }
