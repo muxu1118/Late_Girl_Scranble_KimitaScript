@@ -19,6 +19,7 @@ public class Gorl : MonoBehaviour {
     [SerializeField]
     bool push = false;
     bool isGorl = false;
+	bool isOnce= false;
     [SerializeField]
     private float fadeAudio = 0.1f;
 	//[SerializeField]
@@ -26,6 +27,7 @@ public class Gorl : MonoBehaviour {
     // Use this for initialization
     void Start () {
         isGorl = false;
+		isOnce = false;
         //最初はラベルを表示させない
         GorlLabelObject.SetActive(false);
     }
@@ -33,9 +35,11 @@ public class Gorl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //ゲームが終了したときラベルを表示させる
-        if (timer.Count <= timer.CountLimit)
+		if (timer.Count <= timer.CountLimit&&!isOnce)
         {
+			isOnce = true;
             GorlLabelObject.SetActive(true);
+			isGorl = true;
 			push = true;
         }
         //音
@@ -56,6 +60,11 @@ public class Gorl : MonoBehaviour {
 			return;
         }
 	}
+
+	public bool InTime()
+    {
+		return isOnce;
+    }
 
     public void InGorl()
     {

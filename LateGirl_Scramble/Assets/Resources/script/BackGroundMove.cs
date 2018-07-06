@@ -36,6 +36,13 @@ public class BackGroundMove : MonoBehaviour {
         {
             warpScript[i] = pattern[i].gameObject.GetComponent<warp>();
         }
+		for (int i = 0; i < pan.Length; i++)
+        {
+			pan[i].SetActive(true);
+			if(i<5){
+				sukebo[i].SetActive(true);
+			}
+        }
         isChange = true;
 
     }

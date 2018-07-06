@@ -29,7 +29,7 @@ public class Senpai : MonoBehaviour
             time -= 10.0f;
         }
         time += Time.deltaTime;
-        transform.Translate(-0.05f, 0, 0);
+		if(!gorl.InTime())transform.Translate(-0.05f, 0, 0);
 
     }
     void OnCollisionEnter2D(Collision2D other)

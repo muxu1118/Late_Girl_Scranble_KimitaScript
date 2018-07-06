@@ -16,7 +16,7 @@ public class Item : MonoBehaviour {
     {
         //プレイヤーだったら破壊
         if (collision.gameObject.tag != "Player") return;
-        Destroy(gameObject);
+		gameObject.SetActive(false);
     }
     //アイテムの名前を呼び出す
     public int HeyItemName() {
