@@ -16,9 +16,13 @@ public class BackGroundMove : MonoBehaviour {
     private GameObject[] sukebo = new GameObject[5];
     [SerializeField]
     GameObject[] pattern = new GameObject[4];
+	[SerializeField]
+	GameObject itemPosition;
 	private warp[] warpScript = new warp[4];
-    private bool isChange=false;
-    private int rand;
+    private bool isChange = false;
+	private bool isCount = false;
+	private int rand;
+	private const int scrollLimit = 10;
     public float BackSpeed
     {
         get
@@ -39,10 +43,11 @@ public class BackGroundMove : MonoBehaviour {
 		for (int i = 0; i < pan.Length; i++)
         {
 			pan[i].SetActive(true);
-			if(i<5){
+			if(i < 5){
 				sukebo[i].SetActive(true);
 			}
         }
+		panIntCount = 0;
         isChange = true;
 
     }
@@ -56,17 +61,7 @@ public class BackGroundMove : MonoBehaviour {
             if (isChange)
             {
                 Change();
-                if (panIntCount % 2 == 0 && panIntCount % 2 <= 10)
-                {
-                    pan[panIntCount / 2].transform.position = new Vector3(64f, Random.Range(-4f, 0), 0);
-                    if (panIntCount % 4 == 0 && panIntCount % 4 <= 5)
-                    {
-                        sukebo[panIntCount / 4].transform.position = new Vector3(22.8f, Random.Range(-4f, 0), 0);
-                    }
-                } else if (panIntCount == 1)
-                {
-                    pan[panIntCount - 1].transform.position = new Vector3(18.8f, Random.Range(-4f, 0), 0);
-                }
+				ItemLayout();
             }
         }
         else
@@ -86,8 +81,27 @@ public class BackGroundMove : MonoBehaviour {
             return;
         }
     }
+	private void ItemLayout(){
+		if (panIntCount % 2 == 0 && panIntCount % 2 <= scrollLimit&&isCount)
+        {
+			Debug.Log("パン屋");
+			pan[panIntCount / 2].transform.position = new Vector3(itemPosition.transform.position.x, Random.Range(-4f, 0), 0);
+            if (panIntCount % 4 == 0 && panIntCount % 4 <= scrollLimit / 2)
+            {
+				Debug.Log("なんでやねん");
+				sukebo[panIntCount / 4].transform.position = new Vector3(itemPosition.transform.position.x- 44.8f, Random.Range(-4f, 0), 0);
+            }
+			isCount = false;
+        }
+        else if (panIntCount == 1)
+        {
+			pan[panIntCount - 1].transform.position = new Vector3(itemPosition.transform.position.x- 44.8f, Random.Range(-4f, 0), 0);
+			isCount = false;
+		}
+	}
     public void Moving()
     {
         isChange = true;
+		isCount = true;
     }
 }
