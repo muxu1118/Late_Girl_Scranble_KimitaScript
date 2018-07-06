@@ -15,11 +15,14 @@ public class Resaults : MonoBehaviour {
 	}
 	public void HomeButton(){
 		SceneLoadManager.LoadScene("StartScene");
+		return;
 	}
 	public void NextButton(){
-		SceneLoadManager.LoadScene("");
+		SceneLoadManager.LoadScene("nextscene");
+		return;
 	}
 	public void ReStartButton(){
 		SceneLoadManager.LoadScene("mainScene");
+		return;
 	}
 }
