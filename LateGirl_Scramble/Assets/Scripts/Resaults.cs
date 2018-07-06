@@ -18,7 +18,7 @@ public class Resaults : MonoBehaviour {
 		return;
 	}
 	public void NextButton(){
-		SceneLoadManager.LoadScene("nextscene");
+		SceneLoadManager.LoadScene("StartScene");
 		return;
 	}
 	public void ReStartButton(){
