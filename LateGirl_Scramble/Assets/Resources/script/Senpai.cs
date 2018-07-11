@@ -13,7 +13,6 @@ public class Senpai : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         Debug.Log("iti" + transform.position.x);
         Debug.Log("time" + time);
         //約十秒で大体14.349936,14.949826,17.399738,17.49973
@@ -30,6 +29,7 @@ public class Senpai : MonoBehaviour
         }
         time += Time.deltaTime;
 		if(!gorl.InTime())transform.Translate(-0.05f, 0, 0);
+        else GetComponent<Animator>().SetTrigger("SenpaiGorl");
 
     }
     void OnCollisionEnter2D(Collision2D other)
