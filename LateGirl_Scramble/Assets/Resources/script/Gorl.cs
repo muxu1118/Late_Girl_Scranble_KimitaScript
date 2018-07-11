@@ -7,7 +7,9 @@ public class Gorl : MonoBehaviour {
 
     [SerializeField]
     private Timer timer;
-	public string nextScene="Resaults";
+    [SerializeField]
+    private BackSpeed BS;
+    public string nextScene="Resaults";
     //ゴール時に出る文字
     public GameObject GorlLabelObject;
 
@@ -24,12 +26,14 @@ public class Gorl : MonoBehaviour {
     private float fadeAudio = 0.1f;
 	//[SerializeField]
 	public int aftergoal = 1;
+    float gorlCount = 0;
     // Use this for initialization
     void Start () {
         isGorl = false;
 		isOnce = false;
         //最初はラベルを表示させない
         GorlLabelObject.SetActive(false);
+        gorlCount = 0;
     }
 	
 	// Update is called once per frame
@@ -55,9 +59,12 @@ public class Gorl : MonoBehaviour {
         if (isGorl)
         {
 			aftergoal = 0;
-            SceneLoadManager.LoadScene(nextScene);
-            isGorl = false;
-			return;
+            gorlCount += Time.deltaTime;
+            if (gorlCount >= 3f)
+            {
+                SceneLoadManager.LoadScene(nextScene);
+                isGorl = false;
+            }
         }
 	}
 
@@ -65,10 +72,17 @@ public class Gorl : MonoBehaviour {
     {
 		return isOnce;
     }
+    public bool IsGorl()
+    {
+        return isGorl;
+    }
 
     public void InGorl()
     {
         isGorl = true;
+        BS.IsGorl();
+        GorlLabelObject.SetActive(true);
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -82,6 +82,7 @@ public class player : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        isGorl = false;
         backSpeed = GameObject.Find("BackGround").gameObject.GetComponent<BackSpeed>();
         audio = GetComponent<AudioSource>();
         Xposition = transform.position.x;
@@ -98,25 +99,23 @@ public class player : MonoBehaviour {
     {
         transform.Translate(speed, 0, 0);
         //ゲーム中だけ動かせるよう
-        if (time.Count > time.CountLimit&&!isSukebo){
+        if (!isGorl&&!isSukebo){
             Jump();
             Sriding();
         }
-        else if(isSukebo)
+        else if(isSukebo)//スケボー時にできる
         {
             sukeboJump();
             sukeboCount += Time.deltaTime;
             SukeboRelease();
         }
-        else {
-            isGorl = true;
-        }
+
         //ゲーム終了時にどっか行くように
         if (isGorl)
         {
             time.gorlGone(isGorl);
         }
-
+        //時間カウント系
         mutekiCount += Time.deltaTime;
         count += Time.deltaTime;
         //障害物に当たったら時間でアニメーションを変える
@@ -134,14 +133,15 @@ public class player : MonoBehaviour {
                 isStop = false;
                 muteki = true;
             }
-        }else if(!isGorl)
+        }else
         {
+            //いつもの位置についたら時にスピードを抑える
             if (transform.position.x >= Xposition)
             {
                 speed = 0f;
             }
         }
-        if (muteki)
+        if (muteki)//miniteの時間の間無敵　※誤字は気にすんな！
         {
             if (mutekiCount >= minite+2f)
             {

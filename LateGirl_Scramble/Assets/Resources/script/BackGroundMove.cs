@@ -9,6 +9,8 @@ public class BackGroundMove : MonoBehaviour {
     private float BackSceneSpeed = -0.1f;
     [SerializeField]
     private Timer time;
+    [SerializeField]
+    private Gorl gorl;
     private static int panIntCount = 0;
     [SerializeField]
     private GameObject[] pan = new GameObject[10];
@@ -55,7 +57,7 @@ public class BackGroundMove : MonoBehaviour {
     
     void Update () {
         //時間の間地面を移動させる
-        if (time.Count > time.CountLimit)
+        if (!gorl.IsGorl())
         {
             transform.Translate(BackSceneSpeed, 0, 0);
             if (isChange)

@@ -60,10 +60,8 @@ public class Timer : MonoBehaviour {
 
         if (count > countLimit&&!stop)
         {
-            count -= Time.deltaTime; //スタートしてからの秒数を格納
+            count -= Time.deltaTime; //timeを減らす
             timerSet();
-
-
         }else
         {
             stop = true;

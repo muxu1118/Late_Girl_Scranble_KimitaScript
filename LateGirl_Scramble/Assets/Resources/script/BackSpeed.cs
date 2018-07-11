@@ -9,7 +9,10 @@ public class BackSpeed : MonoBehaviour {
     [SerializeField]
     private Timer time;
     [SerializeField]
+    private Gorl gorl;
+    [SerializeField]
     private float timeCount=0f;
+    bool isGorl;
 
     public float BSpeed
     {
@@ -43,22 +46,28 @@ public class BackSpeed : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        scrollBackGround();
+    }
 
-        if (time.Count > time.CountLimit)
+    private void scrollBackGround()
+    {
+        if (!isGorl)
         {
-            transform.Translate(-BackSceneSpeed-panSpeed, 0, 0);
+            transform.Translate(-BackSceneSpeed - panSpeed, 0, 0);
 
             if (panSpeed > 0.0f)
             {
-                panSpeed -= timeCount/2;
+                panSpeed -= timeCount / 2;
             }
             else
             {
                 panSpeed = 0f;
             }
-            timeCount += Time.deltaTime/1000;
+            timeCount += Time.deltaTime / 1000;
         }
-
-        
+    }
+    public void IsGorl()
+    {
+        isGorl = true;
     }
 }

@@ -8,11 +8,12 @@ public class Senpai : MonoBehaviour
     private player player;
     [SerializeField]
     private Gorl gorl;
-
+    private bool isGorl;
     float time = 0.0f;
     // Use this for initialization
     void Start()
     {
+        isGorl = false;
         Debug.Log("iti" + transform.position.x);
         Debug.Log("time" + time);
         //約十秒で大体14.349936,14.949826,17.399738,17.49973
@@ -21,16 +22,12 @@ public class Senpai : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (time >= 10)
-        {
-            Debug.Log("iti" + transform.position.x);
-            Debug.Log("time" + time);
-            time -= 10.0f;
+        
+		if(!isGorl)transform.Translate(-0.05f, 0, 0);
+        else {
+            time += Time.deltaTime;
         }
-        time += Time.deltaTime;
-		if(!gorl.InTime())transform.Translate(-0.05f, 0, 0);
-        else GetComponent<Animator>().SetTrigger("SenpaiGorl");
-
+        
     }
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -46,8 +43,10 @@ public class Senpai : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
-            player.InGorl();
             gorl.InGorl();
+            player.InGorl();
+            isGorl = true;
+            GetComponent<Animator>().SetTrigger("SenpaiGorl");
             Debug.Log("TriggerCollision");
         }
     }
