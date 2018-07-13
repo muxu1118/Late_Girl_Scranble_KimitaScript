@@ -47,7 +47,6 @@ public class player : MonoBehaviour {
     GameObject itemObject;
     private string animeState = "";
     Item item;//Itemスクリプトから何に当たったかを確認するため
-    string name;// なににあたったかをいれる箱
     private const int maxjump = 2;//二回ジャンプ
     private int jumpcount=0;//ジャンプのカウント
     private int panCount = 0;//panをとった数をカウント
@@ -93,6 +92,7 @@ public class player : MonoBehaviour {
         sr = gameObject.GetComponent<SpriteRenderer>();
         //デバッグ
         Debug.Log(transform.position.x);
+
     }
     // Update is called once per frame
     void Update()
@@ -107,19 +107,23 @@ public class player : MonoBehaviour {
         {
             sukeboJump();
             sukeboCount += Time.deltaTime;
-            SukeboRelease();
+            if (sukeboCount >= sukeboTime)
+            {
+                SukeboRelease();
+            }
         }
 
         //ゲーム終了時にどっか行くように
         if (isGorl)
         {
+            SukeboRelease();
             time.gorlGone(isGorl);
         }
         //時間カウント系
         mutekiCount += Time.deltaTime;
         count += Time.deltaTime;
         //障害物に当たったら時間でアニメーションを変える
-        if (isStop==true)
+        if (isStop)
         {
             //miniteで何秒後に点滅解除
             if (count >= minite)
@@ -130,6 +134,7 @@ public class player : MonoBehaviour {
                 speed = 0.2f;
                 mutekiCount = 0;
                 Debug.Log(count);
+                StartCoroutine(Tenmetu(minite, 0.1f));
                 isStop = false;
                 muteki = true;
             }
@@ -153,24 +158,20 @@ public class player : MonoBehaviour {
     //スケボー状態解除
     private void SukeboRelease()
     {
-        if (sukeboCount >= sukeboTime)
-        {
-            backSpeed.SpeedChange(0f); 
-            Debug.Log("スケボー解除");
-            isSukebo = false;
-            GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
+        backSpeed.SpeedChange(0f); 
+        Debug.Log("スケボー解除");
+        isSukebo = false;
+        GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
 
-            animeState = "ground";
-            ReSetAnime("sukebo");
-            ReSetAnime("sukeboJump");
-            ReSetAnime("sukeboDoubleJump");
-            SetAnime("groundtorriger");
-            muteki = true;
-            mutekiCount = 0;
-            if (jumpcount != 0)
-            {
-                SetAnime("jumptorriger");
-            }
+        animeState = "ground";
+        ReSetAnime("sukebo");
+        ReSetAnime("sukeboJump");
+        SetAnime("groundtorriger");
+        muteki = true;
+        mutekiCount = 0;
+        if (jumpcount != 0)
+        {
+            SetAnime("jumptorriger");
         }
     }
     //ジャンプをするよ
@@ -192,17 +193,6 @@ public class player : MonoBehaviour {
                 ReSetAnime("sukebo");
                 isjump = true;
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
-            }
-            else
-            {
-                animeState = "sukeboDoubleJump";
-                audio.PlayOneShot(seDoubleJump);
-                isdoublejump = true;
-                Debug.Log(jumpcount);
-                SetAnime("sukeboDoubleJump");
-                ReSetAnime("sukeboJump");
-                GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
-
             }
         }
     }
@@ -310,8 +300,9 @@ public class player : MonoBehaviour {
             ItemGet();
         }
         if (speed != 0.0f) return;
-        if (isSukebo || muteki) return;
+        if (muteki) return;
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
+        if (isSukebo) return;
         audio.PlayOneShot(seAccid);
         isStop = true;
         isjump = false;
@@ -382,8 +373,8 @@ public class player : MonoBehaviour {
     {
         GetComponent<Animator>().ResetTrigger(torriger);
     }
-	///前に作ったコマ割りでアニメーション動かすプログラム(使いません)
-	/*
+    ///前に作ったコマ割りでアニメーション動かすプログラム(使いません)
+    /*
    public Sprite[] walk; //プレイヤーの歩くスプライト配列
    int animIndex; //歩くアニメーションのインデックス
    bool walkCheck; //歩いているかのチェック
@@ -408,5 +399,29 @@ public class player : MonoBehaviour {
 	   }
    }
    */
+
+    private IEnumerator Tenmetu(float time,float wait) {
+        float nowTime = 0;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        while (time > nowTime) {
+
+            nowTime += Time.deltaTime;
+            yield return new WaitForSeconds(wait);
+            Color color = sr.color;
+            color.a = 0;
+            sr.color = color;
+            nowTime += Time.deltaTime;
+            yield return new WaitForSeconds(wait);
+            color.a = 1;
+            sr.color = color;
+            nowTime += Time.deltaTime;
+
+            //yield return StartCoroutine(Waiting(1.0f));
+        }
+    }
+
+    private IEnumerator Waiting(float value) {
+        yield return new WaitForSeconds(value);
+    }
 
 }

@@ -59,7 +59,7 @@ public class BackGroundMove : MonoBehaviour {
         //時間の間地面を移動させる
         if (!gorl.IsGorl())
         {
-            transform.Translate(BackSceneSpeed, 0, 0);
+            transform.Translate(BackSceneSpeed * Time.deltaTime*50f, 0, 0);
             if (isChange)
             {
                 Change();

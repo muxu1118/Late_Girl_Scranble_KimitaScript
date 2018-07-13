@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType {
+    pan,
+    sukebo,
+}
+
 public class Item : MonoBehaviour {
     
     private player player;
-    public string itemName;//アイテムの名前を入れる箱
+    public ItemType itemName;//アイテムの名前を入れる箱
 
     private void Awake()
     {
@@ -20,12 +25,12 @@ public class Item : MonoBehaviour {
     }
     //アイテムの名前を呼び出す
     public int HeyItemName() {
-        itemName = gameObject.name;
-        if (itemName == "pan")
+
+        if (itemName == ItemType.pan)
         {
             return 1;
         }
-        else if (itemName == "sukebo")
+        else if (itemName == ItemType.sukebo)
         {
             return 2;
         }
