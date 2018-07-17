@@ -20,10 +20,11 @@ public class BackGroundMove : MonoBehaviour {
     GameObject[] pattern = new GameObject[4];
 	[SerializeField]
 	GameObject itemPosition;
-	private warp[] warpScript = new warp[4];
-    private bool isChange = false;
-	private bool isCount = false;
-	private int rand;
+    GameObject ParentObject;
+    private warp[] warpScript = new warp[4];
+    public static bool isChange = false;
+    public static bool isCount = false;
+    private int rand;
 	private const int scrollLimit = 10;
     public float BackSpeed
     {
@@ -78,7 +79,9 @@ public class BackGroundMove : MonoBehaviour {
         if (warpScript[rand].IsEnd())
         {
             panIntCount++;
-            pattern[rand].transform.position = new Vector3(44.8f, 12.7f-1.0f, 0);
+            ParentObject = Instantiate(pattern[rand], new Vector3(42.0f, 12.7f - 1.0f, 0), Quaternion.identity);
+            ParentObject.transform.parent = transform;
+            //pattern[rand].transform.position = new Vector3(44.8f, 12.7f-1.0f, 0);
             warpScript[rand].EndFalse();
             isChange = false;
             return;
