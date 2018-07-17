@@ -52,12 +52,16 @@ public class Timer : MonoBehaviour {
     void Start()
     {
         if (!stop) count = 120f;
+        numberImages[0].sprite = spriteNumbers[0];
+        numberImages[1].sprite = spriteNumbers[0];
+        numberImages[2].sprite = spriteNumbers[0];
+        numberImages[3].sprite = spriteNumbers[0];
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (!CountDown.isStart) return;
         if (count > countLimit&&!stop)
         {
             count -= Time.deltaTime; //timeを減らす

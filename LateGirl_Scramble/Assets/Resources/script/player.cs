@@ -97,6 +97,7 @@ public class player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (!CountDown.isStart) return;
         transform.Translate(speed, 0, 0);
         //ゲーム中だけ動かせるよう
         if (!isGorl&&!isSukebo){
