@@ -20,8 +20,8 @@ public class Gorl : MonoBehaviour {
     private float MVol = 1f;
     [SerializeField]
     bool push = false;
-    bool isGorl = false;
-	bool isOnce= false;
+    public static bool isGorl = false;
+    public static bool isOnce = false;
     [SerializeField]
     private float fadeAudio = 0.1f;
 	//[SerializeField]
