@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GimmickManager : MonoBehaviour {
     Vector3 gimmickPosition;
-    [SerializeField]
-    private Timer time;
 	[SerializeField]
 	private bool GimickBack = true;
 	[SerializeField]
@@ -13,6 +11,7 @@ public class GimmickManager : MonoBehaviour {
 	[SerializeField]
 	private float BackEndPosition = 10;
     bool isGorl=false;
+    bool isSukeboCollision;
     //[SerializeField]
     //private GameObject gimmick;
     float count=0;
@@ -32,7 +31,6 @@ public class GimmickManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
         /*if (count >= 3){
             Instantiate(gimmickCar, gimmickPosition, Quaternion.identity);
             Instantiate(gimmickRocket, gimmickPosition, Quaternion.identity);
@@ -41,10 +39,9 @@ public class GimmickManager : MonoBehaviour {
         gimmickRocket.transform.Translate(-1*GimickSpeed, 0, 0);
         gimmickCar.transform.Translate(-1 * GimickSpeed, 0, 0);
         */
-        if (time.Count < time.CountLimit)
+        if (isSukeboCollision)
         {
-            isGorl = true;
-            transform.position = new Vector3(-25f, gimmickPosition.y, 0);
+            transform.Translate(1.6f, 1f, 0);
         }
         if (!isGorl)
         {
@@ -68,6 +65,10 @@ public class GimmickManager : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if (player.isSukebo)
+        {
+            isSukeboCollision = true;
+        }
         //どうしようか
     }
 }

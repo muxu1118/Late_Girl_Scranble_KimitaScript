@@ -63,7 +63,7 @@ public class player : MonoBehaviour {
     bool isGorl = false;//ゴールしてる状態かどうか
     bool isStop = false;//障害物あたったかどうか
     bool isItem = false;//アイテムをとった状態かどうか
-    bool isSukebo = false;
+    public static bool isSukebo = false;
     bool isSukeboJump = false;
     bool muteki = false;
     float mutekiCount=0;
