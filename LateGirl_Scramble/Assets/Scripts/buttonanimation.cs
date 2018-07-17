@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
+
 
 
 
 public class buttonanimation : MonoBehaviour {
     
 	public string nextScene = "MainScene";
+	Button button;
 	[SerializeField]
     RectTransform rectTran;
 	[SerializeField]
@@ -29,6 +32,7 @@ public class buttonanimation : MonoBehaviour {
                 .SetEase(Ease.Linear)
 		        .SetLoops(-1, LoopType.Yoyo
                          );
+		button = this.GetComponent<Button>();
 	}
 
 	// Update is called once per frame
@@ -54,5 +58,6 @@ public class buttonanimation : MonoBehaviour {
 		push = true;
 		_Clicks.Play();
 		SceneLoadManager.LoadScene(nextScene);
+		button.interactable = false;
 	}
 }
