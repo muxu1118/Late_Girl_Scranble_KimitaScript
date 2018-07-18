@@ -163,7 +163,8 @@ public class player : MonoBehaviour {
         Debug.Log("スケボー解除");
         isSukebo = false;
         GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
-
+        if(!isGorl)
+        StartCoroutine(Tenmetu(minite, 0.1f));
         animeState = "ground";
         ReSetAnime("sukebo");
         ReSetAnime("sukeboJump");

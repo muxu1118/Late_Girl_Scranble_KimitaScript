@@ -10,6 +10,6 @@ public class ItemMove : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        transform.Translate(-1 * speed, 0, 0);
+        transform.Translate(-1 * speed * Time.deltaTime * 50f, 0, 0);
     }
 }

@@ -52,7 +52,8 @@ public class Timer : MonoBehaviour {
     void Start()
     {
         if (!stop) count = 120f;
-        numberImages[0].sprite = spriteNumbers[0];
+        Debug.Log((int)count / 60);
+        numberImages[0].sprite = spriteNumbers[2];
         numberImages[1].sprite = spriteNumbers[0];
         numberImages[2].sprite = spriteNumbers[0];
         numberImages[3].sprite = spriteNumbers[0];

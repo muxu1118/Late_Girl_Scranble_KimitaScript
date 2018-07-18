@@ -13,7 +13,7 @@ public class warp : MonoBehaviour {
 
     private void Update()
     {
-        if (transform.position.x <= -32.5f && !isEnd)
+        if (transform.position.x <= -34f && !isEnd)
         {
             isEnd = true;
             
