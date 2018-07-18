@@ -23,7 +23,7 @@ public class SinarioManager : MonoBehaviour {
 	void Update () {
 		if (flag == false)
 		{
-			if (Input.GetMouseButtonDown(0) || Input.GetKey("space"))
+			if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
 			{
 				num++;
 				if (num < SinarioSprite.Count)
