@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SinarioManager : MonoBehaviour {
 	[SerializeField]
+	private string nextscene = "mainScene";
+	[SerializeField]
 	private List<Sprite> SinarioSprite = new List<Sprite>();
 	[SerializeField]
 	int num;
@@ -34,7 +36,7 @@ public class SinarioManager : MonoBehaviour {
 				else
 				{
 					flag = true;
-					SceneLoadManager.LoadScene("mainScene");
+					SceneLoadManager.LoadScene(nextscene);
 				}
 
 			}
