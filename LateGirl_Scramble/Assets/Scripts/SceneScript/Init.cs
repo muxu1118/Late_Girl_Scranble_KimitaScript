@@ -8,9 +8,11 @@ public class Init : MonoBehaviour {
 
 	private void Awake()
 	{
-		Screen.SetResolution(1920, 1080, Screen.fullScreen);
+		int width = Screen.width;
+        int height = Screen.height;
+		Screen.SetResolution(width, height, Screen.fullScreen);
 	}
-
+    
 	void Update()
     {
         if (!Application.isShowingSplashScreen && !onLoad)
