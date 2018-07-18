@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class warp : MonoBehaviour {
-
+    
     private static bool isEnd = false;
-    //private BackGroundMove BGM;
 
+    //private BackGroundMove BGM;
     private void Start()
     {
     }
-
     private void Update()
     {
-        if (transform.position.x <= -34f && !isEnd)
+        
+        if (transform.position.x <= -31.9f && !isEnd)
         {
             isEnd = true;
             
