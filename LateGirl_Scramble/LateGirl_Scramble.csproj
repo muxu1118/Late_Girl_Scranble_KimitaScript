@@ -98,11 +98,11 @@
     <Reference Include="DOTween">
       <HintPath>Assets/DOTween/DOTween.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween50">
-      <HintPath>Assets/DOTween/DOTween50.dll</HintPath>
-    </Reference>
     <Reference Include="DOTween43">
       <HintPath>Assets/DOTween/DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets/DOTween/DOTween50.dll</HintPath>
     </Reference>
     <Reference Include="DOTween46">
       <HintPath>Assets/DOTween/DOTween46.dll</HintPath>
@@ -119,17 +119,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Controller Tester\Scripts\DetectUnknownControllerMappings.cs" />
+    <Compile Include="Assets\Resources\Scenes\testPlay\testscene.cs" />
     <Compile Include="Assets\Resources\script\BackGroundMove.cs" />
+    <Compile Include="Assets\Resources\script\BackSpeed.cs" />
     <Compile Include="Assets\Resources\script\Block.cs" />
+    <Compile Include="Assets\Resources\script\CountDown.cs" />
     <Compile Include="Assets\Resources\script\GimmickManager.cs" />
     <Compile Include="Assets\Resources\script\Gorl.cs" />
     <Compile Include="Assets\Resources\script\Item.cs" />
+    <Compile Include="Assets\Resources\script\ItemMove.cs" />
+    <Compile Include="Assets\Resources\script\Map.cs" />
     <Compile Include="Assets\Resources\script\ScoreManager.cs" />
+    <Compile Include="Assets\Resources\script\Senpai.cs" />
     <Compile Include="Assets\Resources\script\Timer.cs" />
     <Compile Include="Assets\Resources\script\colider.cs" />
     <Compile Include="Assets\Resources\script\player.cs" />
+    <Compile Include="Assets\Resources\script\resul.cs" />
     <Compile Include="Assets\Resources\script\time.cs" />
+    <Compile Include="Assets\Resources\script\warp.cs" />
+    <Compile Include="Assets\Scenes\testPlay\testscene.cs" />
     <Compile Include="Assets\Scripts\BGMController.cs" />
+    <Compile Include="Assets\Scripts\EscQuit.cs" />
     <Compile Include="Assets\Scripts\LoadingScenes.cs" />
     <Compile Include="Assets\Scripts\Resaults.cs" />
     <Compile Include="Assets\Scripts\SceneLoadManager.cs" />
