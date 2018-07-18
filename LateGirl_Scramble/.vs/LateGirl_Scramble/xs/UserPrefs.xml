@@ -1,0 +1,16 @@
+﻿<Properties StartupConfiguration="{B47E5F32-735D-1B08-EEDD-ACF7698CA81F}|">
+  <MonoDevelop.Ide.ItemProperties.LateGirl__Scramble PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SinarioManager.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Resaults.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SinarioManager.cs" Line="20" Column="49" />
+      <File FileName="Assets/Scripts/buttonanimation.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
