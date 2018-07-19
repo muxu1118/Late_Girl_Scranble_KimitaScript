@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sinarios.unity
     guid: 2b00e2075252b6a43a15f994067e5f07
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/testPlay/Sinarios8bit.unity
     guid: 5b9998739624c4149be434a22a07677e
   - enabled: 1

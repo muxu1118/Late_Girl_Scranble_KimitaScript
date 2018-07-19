@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ee3a683431794a9ab81263d806c707b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextscene: Sinarios8bit
+  nextscene: mainScene
   SinarioSprite:
   - {fileID: 21300000, guid: 857bd9d7bc5194f058fd5e0cd618e49f, type: 3}
   - {fileID: 21300000, guid: b8a92a51acce9452397c4611e6439cff, type: 3}
