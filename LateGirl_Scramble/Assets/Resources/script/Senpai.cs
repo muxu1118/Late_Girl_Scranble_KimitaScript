@@ -23,7 +23,7 @@ public class Senpai : MonoBehaviour
     void Update()
     {
         
-		if(!isGorl)transform.Translate(-0.05f, 0, 0);
+		if(!isGorl)transform.Translate(-0.05f * Time.deltaTime * 50f, 0, 0);
         else {
             time += Time.deltaTime;
         }

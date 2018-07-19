@@ -53,7 +53,7 @@ public class BackSpeed : MonoBehaviour {
     {
         if (!isGorl)
         {
-            transform.Translate(-BackSceneSpeed - panSpeed, 0, 0);
+            transform.Translate((-BackSceneSpeed - panSpeed) * Time.deltaTime * 50f, 0, 0);
 
             if (panSpeed > 0.0f)
             {

@@ -81,8 +81,14 @@ public class BackGroundMove : MonoBehaviour {
         if (warpScript[rand].IsEnd())
         {
             panIntCount++;
-            ParentObject = Instantiate(pattern[rand], new Vector3(44.8f, yDebug, 0), Quaternion.identity);
+            // スプライトの幅を取得
+            //float width = GetComponent<SpriteRenderer>().bounds.size.x;
+          
+            ParentObject = Instantiate(pattern[rand], new Vector3(35.8f, yDebug, 0), Quaternion.identity);
+
             ParentObject.transform.parent = transform;
+            // 幅2個数分だけ右へ移動
+            ParentObject.transform.position = new Vector3(41.3f, yDebug, 0);
             //pattern[rand].transform.position = new Vector3(44.8f, 12.7f-1.0f, 0);
             warpScript[rand].EndFalse();
             isChange = false;
