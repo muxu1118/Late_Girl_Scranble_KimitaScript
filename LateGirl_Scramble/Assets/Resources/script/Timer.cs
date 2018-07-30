@@ -62,7 +62,7 @@ public class Timer : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!CountDown.isStart) return;
+        if (!CountDown.isStart||CutIn.isCutIn) return;
         if (count > countLimit&&!stop)
         {
             count -= Time.deltaTime; //timeを減らす

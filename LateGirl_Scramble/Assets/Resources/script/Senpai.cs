@@ -22,8 +22,8 @@ public class Senpai : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-		if(!isGorl)transform.Translate(-0.05f * Time.deltaTime * 50f, 0, 0);
+        if (!CountDown.isStart || CutIn.isCutIn) return;
+		if (!isGorl)transform.Translate(-0.05f * Time.deltaTime * 50f, 0, 0);
         else {
             time += Time.deltaTime;
         }

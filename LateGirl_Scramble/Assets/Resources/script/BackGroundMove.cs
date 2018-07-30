@@ -59,7 +59,7 @@ public class BackGroundMove : MonoBehaviour {
     //スピードをプレイヤーから持ってこれるようpublic
     
     void Update () {
-        if (!CountDown.isStart) return;
+        if (!CountDown.isStart||CutIn.isCutIn) return;
         //時間の間地面を移動させる
         if (!gorl.IsGorl())
         {

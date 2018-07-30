@@ -72,12 +72,14 @@ public class player : MonoBehaviour {
     private ScoreManager Score;
     [SerializeField]
     private Timer time;//timerスクリプトから時間を持ってくるように作成
+    [SerializeField]
+    private CutIn Cut;
     private BackSpeed backSpeed;
     [SerializeField]
-    Sprite sp;
+    Sprite sp;//スプライト
     [SerializeField]
-    Sprite playerSp;
-    SpriteRenderer sr;
+    Sprite playerSp;//プレイヤーのスプライト
+    SpriteRenderer sr;//スプライトレンダラー
     // Use this for initialization
     void Start()
     {
@@ -97,7 +99,7 @@ public class player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!CountDown.isStart) return;
+        if (!CountDown.isStart || CutIn.isCutIn) return;
         transform.Translate(speed, 0, 0);
         //ゲーム中だけ動かせるよう
         if (!isGorl&&!isSukebo){
@@ -341,12 +343,17 @@ public class player : MonoBehaviour {
     private void sukebo()
     {
         audio.PlayOneShot(seSukebo);
+        Cut.SukeboCutIn();
         isSukebo = true;
         GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
         SetAnime("sukebo");
         ReSetAnime("groundtorriger");
         ReSetAnime("sridingtorriger");
         ReSetAnime("jumptorriger");
+    }
+    public void SukeboMove()
+    {
+        isSukebo = true;
         sukeboCount = 0;
         backSpeed.SpeedChange(0.1f);
     }

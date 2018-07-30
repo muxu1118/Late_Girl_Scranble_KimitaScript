@@ -17,7 +17,8 @@ public class Map : MonoBehaviour {
     private float parsent = 0;
     private void Update()
     {
-        if (!CountDown.isStart) return;
+
+        if (!CountDown.isStart||Gorl.isGorl) return;
 		chicoMap.transform.Translate((((0.05f / parsent) * 2  + Kasoku())* 0.8F) * Time.deltaTime * 50f, 0, 0);
 		senpaiMap.transform.Translate(((0.05f / parsent)* 0.5F) * Time.deltaTime * 50f, 0, 0);
     }
