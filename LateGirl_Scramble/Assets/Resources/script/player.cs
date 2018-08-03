@@ -99,6 +99,8 @@ public class player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Return)) { Debug.Log("オルガエンター"); }
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) { Debug.Log("Ctrl止まるんじゃねぇぞ..."); }
         if (!CountDown.isStart || CutIn.isCutIn) return;
         transform.Translate(speed, 0, 0);
         //ゲーム中だけ動かせるよう
@@ -184,7 +186,7 @@ public class player : MonoBehaviour {
 
         if (jumpcount >= maxjump) { return; }
         //クリック、スペースキーを押したとき
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space")|| Input.GetKeyDown(KeyCode.UpArrow))
         {
             ReSetAnime("groundtorriger");
             jumpcount++;
@@ -206,7 +208,7 @@ public class player : MonoBehaviour {
 
         if (isStop || jumpcount >= maxjump) { return; }
         //クリック、スペースキーを押したとき
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space")||Input.GetKeyDown(KeyCode.UpArrow))
         {
             isSriding = false;
             ReSetAnime("groundtorriger");
@@ -238,21 +240,21 @@ public class player : MonoBehaviour {
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
         if (isjump|| isStop||isdoublejump|| jumpcount != 0) { return; }
-        if (Input.GetKey("a")&&animeState!="sriding")
+        if ((Input.GetKey("a") || Input.GetKey(KeyCode.DownArrow))&& animeState!="sriding")
         {
             animeState = "sriding";
             audio.PlayOneShot(seSliding);
             SetAnime("sridingtorriger");
             ReSetAnime("groundtorriger");
             isSriding = true;
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 ReSetAnime("sridingtorriger");
                 isSriding = false;
                 return;
             }
         }
-        if (Input.GetKeyUp("a"))
+        if (Input.GetKeyUp("a") || Input.GetKeyUp(KeyCode.DownArrow))
         {
             animeState = "ground";
             SetAnime("groundtorriger");
