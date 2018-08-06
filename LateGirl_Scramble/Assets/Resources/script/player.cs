@@ -68,6 +68,8 @@ public class player : MonoBehaviour {
     bool muteki = false;
     float mutekiCount=0;
     float mutekiTime = 0;
+    float sridingTime = 0;
+
     [SerializeField]
     private ScoreManager Score;
     [SerializeField]
@@ -93,7 +95,6 @@ public class player : MonoBehaviour {
         animeState = "ground";
         sr = gameObject.GetComponent<SpriteRenderer>();
         
-        StartCoroutine(Tenmetu(3.0f, 0.1f));
 
     }
     // Update is called once per frame
@@ -109,6 +110,8 @@ public class player : MonoBehaviour {
             Jump();
             //スライディング
             Sriding();
+            sridingTime+=Time.deltaTime;
+            SridingRelease(sridingTime,2.0f);
         }
         else if(isSukebo)//スケボー時にできる
         {
@@ -249,6 +252,7 @@ public class player : MonoBehaviour {
             SetAnime("sridingtorriger");
             ReSetAnime("groundtorriger");
             isSriding = true;
+            sridingTime = 0;
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 ReSetAnime("sridingtorriger");
@@ -256,14 +260,17 @@ public class player : MonoBehaviour {
                 return;
             }
         }
-        if (Input.GetKeyUp("a") || Input.GetKeyUp(KeyCode.DownArrow))
+
+    }
+    private void SridingRelease(float time,float limit)
+    {
+        if (time > limit)
         {
             animeState = "ground";
             SetAnime("groundtorriger");
             ReSetAnime("sridingtorriger");
             isSriding = false;
         }
-
     }
     //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
     void OnCollisionEnter2D(Collision2D other)
@@ -368,6 +375,13 @@ public class player : MonoBehaviour {
         panCount++;
         backSpeed.PanSpeedUp();
         Score.panScore(panCount);
+    }
+    /// <summary>
+    /// ボタンを押したらスピードアップ
+    /// </summary>
+    private void PanDash()
+    {
+        if (panCount > 0) return;
     }
     public int panReturn()
     {
