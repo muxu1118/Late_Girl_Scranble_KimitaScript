@@ -92,20 +92,22 @@ public class player : MonoBehaviour {
         time.gorlGone(false);
         animeState = "ground";
         sr = gameObject.GetComponent<SpriteRenderer>();
-        //デバッグ
-        Debug.Log(transform.position.x);
+        
+        StartCoroutine(Tenmetu(3.0f, 0.1f));
 
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) { Debug.Log("オルガエンター"); }
-        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) { Debug.Log("Ctrl止まるんじゃねぇぞ..."); }
+        //カウントダウンとカットインの時は止まるように
         if (!CountDown.isStart || CutIn.isCutIn) return;
+        //これで下がったり下がらなかったり
         transform.Translate(speed, 0, 0);
         //ゲーム中だけ動かせるよう
         if (!isGorl&&!isSukebo){
+            //ジャンプ
             Jump();
+            //スライディング
             Sriding();
         }
         else if(isSukebo)//スケボー時にできる

@@ -1115,7 +1115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &477388832
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2955,8 +2955,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.03, y: -1.55, z: 0}
   m_LocalScale: {x: 0.8699999, y: 0.8699999, z: 0.8699999}
-  m_Children:
-  - {fileID: 2065365998}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4840,6 +4839,10 @@ Prefab:
       propertyPath: m_Name
       value: Canvas (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1090622310119630, guid: 44a379c1c16434850bf3b02c28a0e907, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44a379c1c16434850bf3b02c28a0e907, type: 2}
   m_IsPrefabParent: 0
@@ -5077,13 +5080,14 @@ GameObject:
   - component: {fileID: 2065365998}
   - component: {fileID: 2065365999}
   - component: {fileID: 2065366000}
+  - component: {fileID: 2065366001}
   m_Layer: 0
-  m_Name: New Sprite
+  m_Name: ChicoShadows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2065365998
 Transform:
   m_ObjectHideFlags: 0
@@ -5091,11 +5095,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2065365997}
   m_LocalRotation: {x: -0, y: -0, z: -0.697424, w: 0.71665883}
-  m_LocalPosition: {x: -0.14, y: -3.42, z: 0}
-  m_LocalScale: {x: 0.27100244, y: 0.65976393, z: 1.1494254}
+  m_LocalPosition: {x: -4.932, y: -4.631, z: 0}
+  m_LocalScale: {x: 0.23577222, y: 0.5739948, z: 1}
   m_Children: []
-  m_Father: {fileID: 1150968626}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -88.441}
 --- !u!212 &2065365999
 SpriteRenderer:
@@ -5158,6 +5162,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 2
+--- !u!114 &2065366001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2065365997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26499ca69b922af46ab399f9fb2701a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chicoObj: {fileID: 1150968623}
 --- !u!1001 &2076779864
 Prefab:
   m_ObjectHideFlags: 0
