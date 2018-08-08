@@ -8,11 +8,14 @@ public class Senpai : MonoBehaviour
     private player player;
     [SerializeField]
     private Gorl gorl;
+    [SerializeField]
+    private GameObject hukidashi;
     private bool isGorl;
     float time = 0.0f;
     // Use this for initialization
     void Start()
     {
+        hukidashi.SetActive(false);
         isGorl = false;
         Debug.Log("iti" + transform.position.x);
         Debug.Log("time" + time);
@@ -31,21 +34,18 @@ public class Senpai : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Player")
-        {
-            player.InGorl();
-            Debug.Log("普通のcollision");
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
 
         if (collision.gameObject.tag == "Player")
         {
             gorl.InGorl();
             player.InGorl();
             isGorl = true;
+            hukidashi.SetActive(false);
             GetComponent<Animator>().SetTrigger("SenpaiGorl");
             Debug.Log("TriggerCollision");
         }
