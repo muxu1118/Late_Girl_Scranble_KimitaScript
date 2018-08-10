@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 //using UnityEditor;
 
 public class player : MonoBehaviour {
@@ -8,7 +9,7 @@ public class player : MonoBehaviour {
     private float speed = 0f; //プレイヤーの速さ
     [SerializeField]
     float jumpH = 7f;//ジャンプの高さ
-
+    
 
     [SerializeField]
     private AudioClip seJump;//ジャンプのSE
@@ -69,6 +70,12 @@ public class player : MonoBehaviour {
     float mutekiCount=0;
     float mutekiTime = 0;
     float sridingTime = 0;
+    int boostState = 0;//食パンブーストの状態0:食0,1:食1,2:食2,3:食3
+    float[] gageMator = new float[3];//食パンゲージのメーター最高1
+    
+
+    [SerializeField]
+    private Slider[] slider = new Slider[3];
 
     [SerializeField]
     private ScoreManager Score;
@@ -104,6 +111,10 @@ public class player : MonoBehaviour {
         if (!CountDown.isStart || CutIn.isCutIn) return;
         //これで下がったり下がらなかったり
         transform.Translate(speed, 0, 0);
+
+        //ゲージ増やし
+        GageManeger(true);
+
         //ゲーム中だけ動かせるよう
         if (!isGorl&&!isSukebo){
             //ジャンプ
@@ -115,6 +126,7 @@ public class player : MonoBehaviour {
         }
         else if(isSukebo)//スケボー時にできる
         {
+            //スケボージャンプ
             sukeboJump();
             sukeboCount += Time.deltaTime;
             if (sukeboCount >= sukeboTime)
@@ -224,6 +236,7 @@ public class player : MonoBehaviour {
                 animeState = "jump";
                 isjump = true;
                 audio.PlayOneShot(seJump);
+                Debug.Log("1Jump");
                 SetAnime("jumptorriger");
                 GetComponent<Rigidbody2D>().velocity = new Vector3(GetComponent<Rigidbody2D>().velocity.x, jumpH, 0);
             }
@@ -245,17 +258,17 @@ public class player : MonoBehaviour {
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
         if (isjump|| isStop||isdoublejump|| jumpcount != 0) { return; }
-        if ((Input.GetKey("a") || Input.GetKey(KeyCode.DownArrow))&& animeState!="sriding")
+        if ((Input.GetKeyDown("a") || Input.GetKeyDown(KeyCode.DownArrow))&& animeState!="sriding")
         {
             animeState = "sriding";
             audio.PlayOneShot(seSliding);
             SetAnime("sridingtorriger");
             ReSetAnime("groundtorriger");
+
             isSriding = true;
             sridingTime = 0;
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow))
             {
-                ReSetAnime("sridingtorriger");
                 isSriding = false;
                 return;
             }
@@ -264,8 +277,17 @@ public class player : MonoBehaviour {
     }
     private void SridingRelease(float time,float limit)
     {
-        if (time > limit)
+        if (time > limit&&isSriding)
         {
+            if (Input.GetKey("down") || Input.GetKey("a"))
+            {
+                animeState = "sriding";
+                SetAnime("sridingtorriger");
+                ReSetAnime("groundtorriger");
+                isSriding = true;
+                sridingTime = 0;
+                return;
+            }
             animeState = "ground";
             SetAnime("groundtorriger");
             ReSetAnime("sridingtorriger");
@@ -293,9 +315,13 @@ public class player : MonoBehaviour {
             SetAnime("sridingtorriger");
             ReSetAnime("jumptorriger");
             ReSetAnime("doublejumptorriger");
+
+            audio.PlayOneShot(seSliding);
+            isSriding = true;
             isjump = false;
             isdoublejump = false;
             jumpcount = 0;
+            sridingTime = 0;
             return;
         }
         animeState = "ground";
@@ -375,13 +401,72 @@ public class player : MonoBehaviour {
         panCount++;
         backSpeed.PanSpeedUp();
         Score.panScore(panCount);
+        //ブーストゲージ
+        if(boostState <= 3)
+        {
+            boostState++;
+            return;
+        }
+    }
+    private void GageManeger(bool plus)
+    {
+        if (plus)
+        {
+            gageMator[boostState] += 0.01f;
+            switch (boostState)
+            {
+                case 0:
+                    //ゲージ１を伸ばす
+                    slider[0].value = gageMator[0];
+                    if (gageMator[0] <= 1) return;
+                    break;
+                case 1:
+                    //ゲージ２を伸ばす
+                    slider[1].value += gageMator[1];
+                    if (gageMator[1] <= 1) return;
+                    break;
+                case 2:
+                    //ゲージ３を伸ばす
+                    slider[2].value += gageMator[2];
+                    if (gageMator[2] <= 1) return;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+
+            switch (boostState)
+            {
+                case 0:
+                    //ゲージ１を伸ばす
+                    slider[0].value -= 0.01f;
+                    if (gageMator[0] <= 0) return;
+                    break;
+                case 1:
+                    //ゲージ２を伸ばす
+                    slider[1].value -= 0.01f;
+                    if (gageMator[1] <= 0) return;
+                    break;
+                case 2:
+                    //ゲージ３を伸ばす
+                    slider[2].value -= 0.01f;
+                    if (gageMator[2] <= 0) return;
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
     /// <summary>
     /// ボタンを押したらスピードアップ
     /// </summary>
     private void PanDash()
     {
-        if (panCount > 0) return;
+        if(Input.GetKeyDown(KeyCode.RightArrow))
+        GageManeger(false);
     }
     public int panReturn()
     {
@@ -427,6 +512,7 @@ public class player : MonoBehaviour {
    }
    */
 
+    
     private IEnumerator Tenmetu(float time,float wait) {
         float nowTime = 0;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
