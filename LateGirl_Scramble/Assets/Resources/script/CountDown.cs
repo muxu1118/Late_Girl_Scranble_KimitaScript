@@ -11,8 +11,10 @@ public class CountDown : MonoBehaviour {
     Image countDownImage;
     [SerializeField]
     Sprite[] countDownSprite;
+    [SerializeField]
+    GameObject BlackBoard;
 
-	void Start () {
+    void Start () {
         isStart = false;
         StartCoroutine(TimeDown(countDown,1f));
         StartCoroutine(SpriteChange(5f));
@@ -37,12 +39,14 @@ public class CountDown : MonoBehaviour {
         if (nowTime >= time)
         {
             isStart = true;
+            BlackBoard.SetActive(false);
             countDownImage.sprite = countDownSprite[3];
         }
     }
     private IEnumerator SpriteChange(float wait)
     {
         yield return new WaitForSeconds(wait);
+
         gameObject.SetActive(false);
     }
     private IEnumerator Waiting(float value)

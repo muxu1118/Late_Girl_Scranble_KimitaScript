@@ -399,10 +399,10 @@ public class player : MonoBehaviour {
 
         audio.PlayOneShot(sePan);
         panCount++;
-        backSpeed.PanSpeedUp();
+        //backSpeed.PanSpeedUp();
         Score.panScore(panCount);
         //ブーストゲージ
-        if(boostState <= 3)
+        if(boostState <= 4)
         {
             boostState++;
             return;
@@ -412,23 +412,22 @@ public class player : MonoBehaviour {
     {
         if (plus)
         {
-            gageMator[boostState] += 0.01f;
             switch (boostState)
             {
-                case 0:
-                    //ゲージ１を伸ばす
-                    slider[0].value = gageMator[0];
-                    if (gageMator[0] <= 1) return;
-                    break;
                 case 1:
-                    //ゲージ２を伸ばす
-                    slider[1].value += gageMator[1];
-                    if (gageMator[1] <= 1) return;
+                    //ゲージ１を伸ばす
+                    slider[0].value += 1f*Time.deltaTime;
+                    if (slider[0].value <= 2) return;
                     break;
                 case 2:
+                    //ゲージ２を伸ばす
+                    slider[1].value += 1f * Time.deltaTime;
+                    if (slider[0].value <= 2) return;
+                    break;
+                case 3:
                     //ゲージ３を伸ばす
-                    slider[2].value += gageMator[2];
-                    if (gageMator[2] <= 1) return;
+                    slider[2].value += 1f * Time.deltaTime;
+                    if (slider[0].value <= 2) return;
                     break;
                 default:
                     break;
