@@ -476,6 +476,10 @@ public class player : MonoBehaviour {
     {
         isGorl = true;
     }
+    public bool IsJump()
+    {
+        return isjump;
+    }
     private void SetAnime(string torriger)
     {
         GetComponent<Animator>().SetTrigger(torriger);

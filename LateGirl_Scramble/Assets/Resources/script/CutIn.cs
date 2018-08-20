@@ -8,6 +8,9 @@ public class CutIn : MonoBehaviour {
     private float cutinCount;
     [SerializeField]
     player Player;
+    [SerializeField]
+    EffectSpawn effect;
+
     // Use this for initialization
     void Start () {
     }
@@ -30,6 +33,7 @@ public class CutIn : MonoBehaviour {
     public void SukeboCutIn()
     {
         gameObject.SetActive(true);
+        effect.Spawn();
         Debug.Log("スケボー");
         isCutIn = true;
         CutInPre();

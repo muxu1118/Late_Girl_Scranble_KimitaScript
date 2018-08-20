@@ -18,4 +18,11 @@ public class EffectSpawn : MonoBehaviour {
         var instantiateEffect = GameObject.Instantiate(effectObject, transform.position + new Vector3(0f, offset, 0f), Quaternion.identity) as GameObject;
         Destroy(instantiateEffect, deleteTime);
     }
+
+    public void Spawn()
+    {
+        var instantiateEffect = GameObject.Instantiate(effectObject, transform.position + new Vector3(0f, offset, 0f), Quaternion.identity) as GameObject;
+        Destroy(instantiateEffect, deleteTime);
+    }
+
 }
