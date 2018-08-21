@@ -23,36 +23,47 @@ public class BGAnime : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		
-	}
+        if (birdState == "Fly")
+        {
+            transform.Translate(-0.01f, 0.01f, 0);
+        }
+
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         
         if (kind == Animation.Bird)
         {
-            if (collision.gameObject.tag == "Zone")
+            if (collision.gameObject.tag == "Anime")
             {
-
-                Debug.Log("2" + birdState);
+             
                 if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow)) && !isBird)
                 {
-                    Debug.Log(birdState);
                     isBird = true;
 
                 }
                 if (isBird&& birdState == "Idle")
                 {
-                    Debug.Log(birdState);
                     SetAnime("Bird");
                     birdState = "Turn";
                     isBird = false;
                 } else if (isBird && birdState == "Turn")
                 {
-                    Debug.Log(birdState);
                     birdState = "Fly";
                     SetAnime("Fly");
                     isBird = false;
                 }
+
+            }
+        }else if(kind == Animation.Cat)
+        {
+            if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow)) || (Input.GetKeyDown("down") || Input.GetKeyDown("a")))
+            {
+                SetAnime("Cat");
+            }
+            else
+            {
+                ReSetAnime("Cat");
             }
         }
     }
