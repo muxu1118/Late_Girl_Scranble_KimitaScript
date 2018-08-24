@@ -48,6 +48,7 @@ public class player : MonoBehaviour {
     GameObject itemObject;
     private string animeState = "";
     Item item;//Itemスクリプトから何に当たったかを確認するため
+    
     private const int maxjump = 2;//二回ジャンプ
     private int jumpcount=0;//ジャンプのカウント
     private int panCount = 0;//panをとった数をカウント
@@ -114,9 +115,11 @@ public class player : MonoBehaviour {
 
         //ゲージ増やし
         GageManeger(true);
+        GageManeger(false);
 
         //ゲーム中だけ動かせるよう
         if (!isGorl&&!isSukebo){
+            PanDash();
             //ジャンプ
             Jump();
             //スライディング
@@ -340,6 +343,7 @@ public class player : MonoBehaviour {
             item = collision.gameObject.GetComponent<Item>();
             ItemGet();
         }
+        
         if (speed != 0.0f) return;
         if (muteki) return;
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
@@ -349,10 +353,20 @@ public class player : MonoBehaviour {
         isjump = false;
         isSriding = false;
         Debug.Log("障害物に当たり申した");
-        count = 0;
-        speed = -0.1f;
+        if (collision.gameObject.GetComponent<GimmickManager>().gimmick == GimmickKind.car)
+        {
+            Debug.Log("車に当たった");
+            count = 0;
+            speed = -0.1f;
+            SetAnime("stop");
+        }
+        else if (collision.gameObject.GetComponent<GimmickManager>().gimmick == GimmickKind.dust)
+        {
+            Debug.Log("ごみに当たった");
+            count = 0;
+            SetAnime("gomi");
+        }
         jumpcount = 0;
-        SetAnime("stop");
         ReSetAnime("groundtorriger");
         ReSetAnime("sridingtorriger");
         ReSetAnime("jumptorriger");
@@ -440,17 +454,17 @@ public class player : MonoBehaviour {
             {
                 case 0:
                     //ゲージ１を伸ばす
-                    slider[0].value -= 0.01f;
+                    slider[0].value -= 1f * Time.deltaTime;
                     if (gageMator[0] <= 0) return;
                     break;
                 case 1:
                     //ゲージ２を伸ばす
-                    slider[1].value -= 0.01f;
+                    slider[1].value -= 1f * Time.deltaTime;
                     if (gageMator[1] <= 0) return;
                     break;
                 case 2:
                     //ゲージ３を伸ばす
-                    slider[2].value -= 0.01f;
+                    slider[2].value -= 1f * Time.deltaTime;
                     if (gageMator[2] <= 0) return;
                     break;
                 default:
@@ -464,8 +478,16 @@ public class player : MonoBehaviour {
     /// </summary>
     private void PanDash()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow))
-        GageManeger(false);
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GageManeger(false);
+            if (boostState > 0)
+            {
+                backSpeed.PanSpeedUp();
+                boostState--;
+                return;
+            }
+        }
     }
     public int panReturn()
     {

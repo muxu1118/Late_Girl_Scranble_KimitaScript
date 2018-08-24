@@ -84,11 +84,11 @@ public class BackGroundMove : MonoBehaviour {
             // スプライトの幅を取得
             //float width = GetComponent<SpriteRenderer>().bounds.size.x;
           
-            ParentObject = Instantiate(pattern[rand], new Vector3(35.8f, yDebug, 0), Quaternion.identity);
+            ParentObject = Instantiate(pattern[rand], new Vector3(30f, yDebug, 0), Quaternion.identity);
 
             ParentObject.transform.parent = transform;
             // 幅2個数分だけ右へ移動
-            ParentObject.transform.position = new Vector3(41.3f, yDebug, 0);
+            ParentObject.transform.position = new Vector3(37.3f, yDebug, 0);
             //pattern[rand].transform.position = new Vector3(44.8f, 12.7f-1.0f, 0);
             warpScript[rand].EndFalse();
             isChange = false;
@@ -103,15 +103,15 @@ public class BackGroundMove : MonoBehaviour {
             if (panIntCount % 4 == 0 && panIntCount % 4 <= scrollLimit / 2)
             {
 				Debug.Log("なんでやねん");
-				sukebo[panIntCount / 4].transform.position = new Vector3(itemPosition.transform.position.x- 44.8f, Random.Range(-4f, 0), 0);
+				sukebo[panIntCount / 4].transform.position = new Vector3(itemPosition.transform.position.x- 37.3f, Random.Range(-4f, 0), 0);
             }
 			isCount = false;
         }
-        else if (panIntCount == 1)
+        /*else if (panIntCount == 1)
         {
-			pan[panIntCount - 1].transform.position = new Vector3(itemPosition.transform.position.x- 44.8f, Random.Range(-4f, 0), 0);
+			pan[panIntCount - 1].transform.position = new Vector3(itemPosition.transform.position.x- 30.8f, Random.Range(-4f, 0), 0);
 			isCount = false;
-		}
+		}*/
 	}
     public void Moving()
     {

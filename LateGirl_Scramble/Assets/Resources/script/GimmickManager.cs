@@ -2,22 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GimmickKind{
+    car,
+    bat,
+    dust,
+}
+
 public class GimmickManager : MonoBehaviour {
+    public GimmickKind gimmick;
     Vector3 gimmickPosition;
-	[SerializeField]
-	private bool GimickBack = true;
-	[SerializeField]
-	private float GimickSpeed = 0.15f;
-	[SerializeField]
-	private float BackEndPosition = 10;
-    bool isGorl=false;
+    [SerializeField]
+    private bool GimickBack = true;
+    [SerializeField]
+    private float GimickSpeed = 0.15f;
+    [SerializeField]
+    private float BackEndPosition = 10;
+    bool isGorl = false;
     bool isSukeboCollision;
     //[SerializeField]
     //private GameObject gimmick;
-    float count=0;
+    float count = 0;
     int rand;
     bool gimmickSyokan = true;
     float transX;
+
+
     //private GameObject gimmickCar;
     //private GameObject gimmickRocket;
     // Use this for initialization
