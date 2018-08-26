@@ -8,7 +8,7 @@ public class player : MonoBehaviour {
     [SerializeField]
     private float speed = 0f; //プレイヤーの速さ
     [SerializeField]
-    float jumpH = 7f;//ジャンプの高さ
+    float jumpH = 14f;//ジャンプの高さ
     
 
     [SerializeField]
@@ -73,7 +73,9 @@ public class player : MonoBehaviour {
     float sridingTime = 0;
     int boostState = 0;//食パンブーストの状態0:食0,1:食1,2:食2,3:食3
     float[] gageMator = new float[3];//食パンゲージのメーター最高1
-    
+    Rigidbody2D rb2d;
+    [SerializeField]
+    GameObject pauseWindow;// ポーズ画面かどうか
 
     [SerializeField]
     private Slider[] slider = new Slider[3];
@@ -102,7 +104,7 @@ public class player : MonoBehaviour {
         time.gorlGone(false);
         animeState = "ground";
         sr = gameObject.GetComponent<SpriteRenderer>();
-        
+        rb2d = GetComponent<Rigidbody2D>();
 
     }
     // Update is called once per frame
@@ -110,6 +112,7 @@ public class player : MonoBehaviour {
     {
         //カウントダウンとカットインの時は止まるように
         if (!CountDown.isStart || CutIn.isCutIn) return;
+        if (pauseWindow.activeSelf) return;
         //これで下がったり下がらなかったり
         transform.Translate(speed, 0, 0);
 
@@ -126,6 +129,7 @@ public class player : MonoBehaviour {
             Sriding();
             sridingTime+=Time.deltaTime;
             SridingRelease(sridingTime,2.0f);
+            if (isjump || isdoublejump) rb2d.gravityScale += 1f * Time.deltaTime;
         }
         else if(isSukebo)//スケボー時にできる
         {
@@ -136,6 +140,7 @@ public class player : MonoBehaviour {
             {
                 SukeboRelease();
             }
+            if (isjump) rb2d.gravityScale += 1f * Time.deltaTime;
         }
 
         //ゲーム終了時にどっか行くように
@@ -245,7 +250,7 @@ public class player : MonoBehaviour {
             }
             else
             {
-
+                rb2d.gravityScale = 1f;
                 animeState = "DoubleJump";
                 audio.PlayOneShot(seDoubleJump);
                 Debug.Log(jumpcount);
@@ -310,6 +315,10 @@ public class player : MonoBehaviour {
             SetAnime("sukebo");
             jumpcount = 0;
             SetAnime("groundtorriger");
+
+            isjump = false;
+            isdoublejump = false;
+            rb2d.gravityScale = 1f;
             return;
         }
         if(jumpcount != 0&&Input.GetKey("a"))
@@ -325,8 +334,12 @@ public class player : MonoBehaviour {
             isdoublejump = false;
             jumpcount = 0;
             sridingTime = 0;
+
+            rb2d.gravityScale = 1f;
             return;
         }
+
+        rb2d.gravityScale = 1f;
         animeState = "ground";
         SetAnime("groundtorriger");
         ReSetAnime("sridingtorriger");
@@ -453,13 +466,16 @@ public class player : MonoBehaviour {
             switch (boostState)
             {
                 case 0:
-                    //ゲージ１を伸ばす
+                    //ゲージ123を減らす
                     slider[0].value -= 1f * Time.deltaTime;
+                    slider[1].value -= 1f * Time.deltaTime;
+                    slider[2].value -= 1f * Time.deltaTime;
                     if (gageMator[0] <= 0) return;
                     break;
                 case 1:
-                    //ゲージ２を伸ばす
+                    //ゲージ２３を減らす
                     slider[1].value -= 1f * Time.deltaTime;
+                    slider[2].value -= 1f * Time.deltaTime;
                     if (gageMator[1] <= 0) return;
                     break;
                 case 2:
