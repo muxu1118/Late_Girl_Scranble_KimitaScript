@@ -29,7 +29,7 @@ public class Pause : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape)||Input.GetKeyDown("right ctrl"))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("right ctrl") || Input.GetKeyDown("left ctrl"))
         {
             PauseActive();
         }

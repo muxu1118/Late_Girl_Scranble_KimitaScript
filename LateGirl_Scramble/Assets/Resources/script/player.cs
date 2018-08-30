@@ -65,6 +65,7 @@ public class player : MonoBehaviour {
     bool isGorl = false;//ゴールしてる状態かどうか
     bool isStop = false;//障害物あたったかどうか
     bool isItem = false;//アイテムをとった状態かどうか
+    bool isStart = false;// 始まり
     public static bool isSukebo = false;
     bool isSukeboJump = false;
     bool muteki = false;
@@ -112,6 +113,11 @@ public class player : MonoBehaviour {
     {
         //カウントダウンとカットインの時は止まるように
         if (!CountDown.isStart || CutIn.isCutIn) return;
+        if (!isStart)
+        {
+            isStart = true;
+            SetAnime("Start");
+        }
         if (pauseWindow.activeSelf) return;
         //これで下がったり下がらなかったり
         transform.Translate(speed, 0, 0);
@@ -156,7 +162,7 @@ public class player : MonoBehaviour {
         if (isStop)
         {
             //miniteで何秒後に点滅解除
-            if (count >= minite)
+            if (count >= minite-2)
             {
                 animeState = "ground";
                 SetAnime("groundtorriger");
@@ -164,7 +170,7 @@ public class player : MonoBehaviour {
                 speed = 0.2f;
                 mutekiCount = 0;
                 Debug.Log(count);
-                StartCoroutine(Tenmetu(minite, 0.1f));
+                StartCoroutine(Tenmetu(minite-0.5f, 0.1f));
                 isStop = false;
                 muteki = true;
             }
@@ -193,7 +199,7 @@ public class player : MonoBehaviour {
         isSukebo = false;
         GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
         if(!isGorl)
-        StartCoroutine(Tenmetu(minite, 0.1f));
+        StartCoroutine(Tenmetu(minite-0.5f, 0.1f));
         animeState = "ground";
         ReSetAnime("sukebo");
         ReSetAnime("sukeboJump");
@@ -360,7 +366,7 @@ public class player : MonoBehaviour {
         if (speed != 0.0f) return;
         if (muteki) return;
         if (collision.gameObject.tag != "Block"&collision.gameObject.tag != "car") return;
-        if (isSukebo) return;
+        if (isSukebo||isStop) return;
         audio.PlayOneShot(seAccid);
         isStop = true;
         isjump = false;
@@ -509,7 +515,7 @@ public class player : MonoBehaviour {
     {
         return panCount;
     }
-    
+    //先輩にぶつかったとき
     public void InGorl()
     {
         isGorl = true;
