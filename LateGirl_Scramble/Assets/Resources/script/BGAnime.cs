@@ -37,7 +37,7 @@ public class BGAnime : MonoBehaviour {
             if (collision.gameObject.tag == "Anime")
             {
              
-                if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow)) && !isBird)
+                if ( Input.GetKeyDown(KeyCode.UpArrow) && !isBird)
                 {
                     isBird = true;
 
@@ -57,7 +57,7 @@ public class BGAnime : MonoBehaviour {
             }
         }else if(kind == Animation.Cat)
         {
-            if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow)) || (Input.GetKeyDown("down") || Input.GetKeyDown("a")))
+            if ( Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("down"))
             {
                 SetAnime("Cat");
             }

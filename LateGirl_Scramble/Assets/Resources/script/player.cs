@@ -217,7 +217,7 @@ public class player : MonoBehaviour {
 
         if (jumpcount >= maxjump) { return; }
         //クリック、スペースキーを押したとき
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space")|| Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             ReSetAnime("groundtorriger");
             jumpcount++;
@@ -239,7 +239,7 @@ public class player : MonoBehaviour {
 
         if (isStop || jumpcount >= maxjump) { return; }
         //クリック、スペースキーを押したとき
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space")||Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             isSriding = false;
             ReSetAnime("groundtorriger");
@@ -272,7 +272,7 @@ public class player : MonoBehaviour {
     {
         //ここに矢印上 if (!Input.GetKeyDown("UpArrow")) return;
         if (isjump|| isStop||isdoublejump|| jumpcount != 0) { return; }
-        if ((Input.GetKeyDown("a") || Input.GetKeyDown(KeyCode.DownArrow))&& animeState!="sriding")
+        if ( Input.GetKeyDown(KeyCode.DownArrow)&& animeState!="sriding")
         {
             animeState = "sriding";
             audio.PlayOneShot(seSliding);
@@ -281,7 +281,7 @@ public class player : MonoBehaviour {
 
             isSriding = true;
             sridingTime = 0;
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 isSriding = false;
                 return;
@@ -293,7 +293,7 @@ public class player : MonoBehaviour {
     {
         if (time > limit&&isSriding)
         {
-            if (Input.GetKey("down") || Input.GetKey("a"))
+            if (Input.GetKey("down"))
             {
                 animeState = "sriding";
                 SetAnime("sridingtorriger");
@@ -327,7 +327,7 @@ public class player : MonoBehaviour {
             rb2d.gravityScale = 1f;
             return;
         }
-        if(jumpcount != 0&&Input.GetKey("a"))
+        if(jumpcount != 0&&Input.GetKey("down"))
         {
             animeState = "sriding";
             SetAnime("sridingtorriger");
@@ -500,7 +500,7 @@ public class player : MonoBehaviour {
     /// </summary>
     private void PanDash()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown("space"))
         {
             GageManeger(false);
             if (boostState > 0)
