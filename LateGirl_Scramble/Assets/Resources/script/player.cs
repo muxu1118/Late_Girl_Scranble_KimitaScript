@@ -75,6 +75,7 @@ public class player : MonoBehaviour {
     bool isSukeboJump = false;
     bool muteki = false;
     bool isTime = false;
+    bool isOkkake = false;
     float mutekiCount=0;
     float mutekiTime = 0;
     float sridingTime = 0;
@@ -83,10 +84,15 @@ public class player : MonoBehaviour {
     Rigidbody2D rb2d;
     [SerializeField]
     GameObject pauseWindow;// ポーズ画面かどうか
+    private GameObject obj;
 
     [SerializeField]
     private Slider[] slider = new Slider[3];
-
+    
+    [SerializeField]
+    private GameObject panDashEffect;
+    [SerializeField]
+    private GameObject sukeboEffect;
     [SerializeField]
     private ScoreManager Score;
     [SerializeField]
@@ -118,10 +124,10 @@ public class player : MonoBehaviour {
     void Update()
     {
         //カウントダウンとカットインの時は止まるように
-        if (!CountDown.isStart || CutIn.isCutIn) return;
-        if (isTime)
+        if (!CountDown.isStart || CutIn.isCutIn||isTime) return;
+        if(time.Count <= 0.01f)
         {
-            return;
+            InTime();
         }
         if (!isStart)
         {
@@ -213,6 +219,7 @@ public class player : MonoBehaviour {
         backSpeed.SpeedChange(0f); 
         Debug.Log("スケボー解除");
         isSukebo = false;
+        Destroy(obj);
         GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
         if(!isGorl)
         StartCoroutine(Tenmetu(minite-0.5f, 0.1f));
@@ -324,7 +331,7 @@ public class player : MonoBehaviour {
             isSriding = false;
         }
     }
-    //接触したらジャンプができる。後々グラウンドタグをつけていきたい(つけた)
+    //接触したらジャンプができる。ground。
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag != "Ground"|| isStop||isSriding) return;
@@ -360,7 +367,18 @@ public class player : MonoBehaviour {
             rb2d.gravityScale = 1f;
             return;
         }
-
+        if (isOkkake)
+        {
+            rb2d.gravityScale = 1f;
+            animeState = "okkake";
+            SetAnime("senpai");
+            ReSetAnime("sridingtorriger");
+            ReSetAnime("jumptorriger");
+            ReSetAnime("doublejumptorriger");
+            isjump = false;
+            isdoublejump = false;
+            jumpcount = 0;
+        }
         rb2d.gravityScale = 1f;
         animeState = "ground";
         SetAnime("groundtorriger");
@@ -438,6 +456,9 @@ public class player : MonoBehaviour {
     {
         audio.PlayOneShot(seSukebo);
         Cut.SukeboCutIn();
+        obj = Instantiate(sukeboEffect);
+        obj.transform.parent = gameObject.transform;
+        obj.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f);
         isSukebo = true;
         GetComponent<Animator>().SetBool("sukeboBool", isSukebo);
         SetAnime("sukebo");
@@ -453,13 +474,12 @@ public class player : MonoBehaviour {
     }
     private void pan()
     {
-
         audio.PlayOneShot(sePan);
         panCount++;
         //backSpeed.PanSpeedUp();
         Score.panScore(panCount);
         //ブーストゲージ
-        if(boostState <= 4)
+        if(boostState < 4)
         {
             boostState++;
             return;
@@ -478,11 +498,14 @@ public class player : MonoBehaviour {
                     break;
                 case 2:
                     //ゲージ２を伸ばす
+                    slider[0].value += 1f * Time.deltaTime;
                     slider[1].value += 1f * Time.deltaTime;
                     if (slider[0].value <= 2) return;
                     break;
                 case 3:
                     //ゲージ３を伸ばす
+                    slider[0].value += 1f * Time.deltaTime;
+                    slider[1].value += 1f * Time.deltaTime;
                     slider[2].value += 1f * Time.deltaTime;
                     if (slider[0].value <= 2) return;
                     break;
@@ -529,7 +552,14 @@ public class player : MonoBehaviour {
             GageManeger(false);
             if (boostState > 0)
             {
-
+                if(animeState == "ground")
+                {
+                    SetAnime("dash");
+                    ReSetAnime("groundtrriger");
+                }
+                GameObject panDash = Instantiate(panDashEffect);
+                panDash.transform.parent = transform;
+                panDash.transform.position = new Vector3(-2.13f - 4.3f, gameObject.transform.position.y-0.2f, 0f);
                 audio.PlayOneShot(seDash);
                 backSpeed.PanSpeedUp();
                 boostState--;
@@ -544,22 +574,28 @@ public class player : MonoBehaviour {
     //先輩にぶつかったとき
     public void InGorl()
     {
+        SetAnime("end");
         isGorl = true;
     }
     public bool IsJump()
     {
         return isjump;
     }
-    public void InTime()
+    public void okkake()
     {
-        SetAnime("End");
+        SetAnime("senpai");
+        
+    }
+    //ゲームオーバー
+    private void InTime()
+    {
+        SetAnime("gameover");
         ReSetAnime("groundtorriger");
         ReSetAnime("sridingtorriger");
         ReSetAnime("jumptorriger");
         ReSetAnime("doublejumptorriger");
         ReSetAnime("sukebo");
         ReSetAnime("sukeboJump");
-    
         isTime = true;
     }
     private void SetAnime(string torriger)

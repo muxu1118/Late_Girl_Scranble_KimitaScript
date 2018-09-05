@@ -7,16 +7,20 @@ public class Senpaizone : MonoBehaviour {
 
     [SerializeField]
     private GameObject hukidashi;
+
+    player player;
     // Use this for initialization
     void Start () {
 		
 	}
     private void OnTriggerEnter2D(Collider2D collision)
     {
-            if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             Debug.Log("なんで吹き出しでないん？");
             hukidashi.SetActive(true);
+            player = collision.GetComponent<player>();
+            player.okkake();
         }
     }
 }

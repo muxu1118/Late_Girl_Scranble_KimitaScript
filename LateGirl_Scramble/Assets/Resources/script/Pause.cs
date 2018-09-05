@@ -6,6 +6,9 @@ public class Pause : MonoBehaviour
     // ポーズした時に表示するUI
     [SerializeField]
     private GameObject pauseUI;
+    //コンテニュー
+    [SerializeField]
+    private GameObject contenue;
     // 選択する矢印
     [SerializeField]
     private GameObject arrow;
@@ -44,8 +47,10 @@ public class Pause : MonoBehaviour
         {
             switch (arrowPoint)
             {
-                case 1: ReStartButton(); break;
-                case 2: HomeButton(); break;
+                case 1: PauseActive(); break;
+                case 2: ReStartButton(); break;
+                case 3: HomeButton(); break;
+                
             }
         }
     }
@@ -83,19 +88,19 @@ public class Pause : MonoBehaviour
         return;
     }
     /// <summary>
-    /// 下ボタンを押されたら選択矢印を上にあげるよ
+    /// 下ボタンを押されたら選択矢印をsitaにあげるよ
     /// </summary>
     private void ArrowDownMove()
     {
         switch (arrowPoint)
         {
             case 1:
-                arrow.transform.position = new Vector3(arrow.transform.position.x, titleButton.transform.position.y, arrow.transform.position.z);
+                arrow.transform.position = new Vector3(arrow.transform.position.x, retryButton.transform.position.y, arrow.transform.position.z);
                 arrowPoint++;
                 break;
             case 2: 
                 arrow.transform.position = new Vector3(arrow.transform.position.x, titleButton.transform.position.y, arrow.transform.position.z);
-                
+                arrowPoint++;
                 break;
         }
     }
@@ -106,11 +111,11 @@ public class Pause : MonoBehaviour
     {
         switch (arrowPoint)
         {
-            case 1:
-                arrow.transform.position = new Vector3(arrow.transform.position.x, retryButton.transform.position.y, arrow.transform.position.z);
-                
-                break;
             case 2:
+                arrow.transform.position = new Vector3(arrow.transform.position.x, contenue.transform.position.y, arrow.transform.position.z);
+                arrowPoint--;
+                break;
+            case 3:
                 arrow.transform.position = new Vector3(arrow.transform.position.x, retryButton.transform.position.y, arrow.transform.position.z);
                 arrowPoint--;
                 break;

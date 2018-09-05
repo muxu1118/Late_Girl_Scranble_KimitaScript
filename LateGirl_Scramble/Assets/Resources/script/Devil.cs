@@ -18,6 +18,8 @@ public class Devil : MonoBehaviour {
     [SerializeField]
     GameObject car;
     [SerializeField]
+    GameObject dust;
+    [SerializeField]
     GameObject objectParent;
     void Start () {
         countMode = true;
@@ -28,14 +30,14 @@ public class Devil : MonoBehaviour {
 
     void Update()
     {
-        if(time.Count <= 120)
+        if (time.Count <= 120)
         {
-            if (transform.position.x >= 7.38f && time.Count >= 115)
+            if (transform.position.x >= 7.38f && time.Count >= 113)
             {
                 transform.Translate(-0.01f, 0, 0);
             }
             else isfly = true;
-            if (transform.position.x <= 10.38f && time.Count <= 115)
+            if (transform.position.x <= 10.38f && time.Count <= 113)
             {
                 transform.Translate(0.02f, 0, 0);
             }
@@ -60,7 +62,7 @@ public class Devil : MonoBehaviour {
                 transform.Translate(0, -0.03f, 0);
             }
         }
-        if (time.Count > 119f||time.Count<115) return;
+        if (time.Count > 119f||time.Count<113) return;
         if (!isAnime && !countMode)
         {
             ReSetAnime("Idle");
@@ -69,10 +71,16 @@ public class Devil : MonoBehaviour {
             countMode = true;
             if (!isSpwan)
             {
-                Instantiate(smoke, new Vector3(7.38f, -4.0f, 0f), Quaternion.identity);
+                Instantiate(smoke, new Vector3(6.46f, -3.55f, 0f), Quaternion.identity);
                 GameObject obj = Instantiate(car, new Vector3(7.38f, -3.2f, 0f), Quaternion.identity);
                 obj.transform.parent = objectParent.transform;
                 isSpwan = true;
+            }else if (isSpwan)
+            {
+                Instantiate(smoke, new Vector3(6.46f, -3.55f, 0f), Quaternion.identity);
+                GameObject obj = Instantiate(dust, new Vector3(7.8f, -3.7f, 0f), Quaternion.identity);
+                obj.transform.parent = objectParent.transform;
+                isSpwan = false;
             }
         }
         if (isAnime && !countMode)
@@ -85,7 +93,7 @@ public class Devil : MonoBehaviour {
         count += Time.deltaTime;
         if (countMode)
         {
-            if (isAnime && count >= 1f) {
+            if (isAnime && count >= 2f) {
                 Debug.Log("false");
                 isAnime = false;
                 count = 0;
