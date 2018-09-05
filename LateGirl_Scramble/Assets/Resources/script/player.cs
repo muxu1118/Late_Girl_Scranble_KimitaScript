@@ -41,8 +41,13 @@ public class player : MonoBehaviour {
 	private float sePanVol;
     [SerializeField]
     private AudioClip seSukebo;//スケボーのSE
-    [Range(0f,100f)][SerializeField]
-	private float seSukeboVol;
+    [Range(0f, 100f)][SerializeField]
+    private float seSukeboVol;
+    [SerializeField]
+    private AudioClip seDash;//食パンダッシュのSE
+    [Range(0f, 100f)][SerializeField]
+    private float seDashvol;
+    
     private AudioSource audio;//これにPlay--で音を流せる
 
     GameObject itemObject;
@@ -164,17 +169,23 @@ public class player : MonoBehaviour {
             //miniteで何秒後に点滅解除
             if (count >= minite-2)
             {
+                
+                mutekiCount = 0;
+                Debug.Log(count);
+                StartCoroutine(Tenmetu(minite-0.7f, 0.15f));
+                
+            }
+            if (count >= minite)
+            {
                 animeState = "ground";
                 SetAnime("groundtorriger");
                 ReSetAnime("stop");
                 speed = 0.2f;
-                mutekiCount = 0;
-                Debug.Log(count);
-                StartCoroutine(Tenmetu(minite-0.5f, 0.1f));
                 isStop = false;
                 muteki = true;
             }
-        }else
+        }
+        else
         {
             //いつもの位置についたら時にスピードを抑える
             if (transform.position.x >= Xposition)
@@ -184,7 +195,7 @@ public class player : MonoBehaviour {
         }
         if (muteki)//miniteの時間の間無敵　※誤字は気にすんな！
         {
-            if (mutekiCount >= minite+2f)
+            if (mutekiCount >= minite+0.8f)
             {
                 mutekiTime = 0;
                 muteki = false;
@@ -383,7 +394,15 @@ public class player : MonoBehaviour {
         {
             Debug.Log("ごみに当たった");
             count = 0;
+            speed = -0.1f;
             SetAnime("gomi");
+        }
+        else if (collision.gameObject.GetComponent<GimmickManager>().gimmick == GimmickKind.bat)
+        {
+            Debug.Log("蝙蝠に当たった");
+            count = 0;
+            speed = -0.1f;
+            SetAnime("bat");
         }
         jumpcount = 0;
         ReSetAnime("groundtorriger");
@@ -505,6 +524,8 @@ public class player : MonoBehaviour {
             GageManeger(false);
             if (boostState > 0)
             {
+
+                audio.PlayOneShot(seDash);
                 backSpeed.PanSpeedUp();
                 boostState--;
                 return;
