@@ -74,6 +74,7 @@ public class player : MonoBehaviour {
     public static bool isSukebo = false;
     bool isSukeboJump = false;
     bool muteki = false;
+    bool isTime = false;
     float mutekiCount=0;
     float mutekiTime = 0;
     float sridingTime = 0;
@@ -118,6 +119,10 @@ public class player : MonoBehaviour {
     {
         //カウントダウンとカットインの時は止まるように
         if (!CountDown.isStart || CutIn.isCutIn) return;
+        if (isTime)
+        {
+            return;
+        }
         if (!isStart)
         {
             isStart = true;
@@ -544,6 +549,18 @@ public class player : MonoBehaviour {
     public bool IsJump()
     {
         return isjump;
+    }
+    public void InTime()
+    {
+        SetAnime("End");
+        ReSetAnime("groundtorriger");
+        ReSetAnime("sridingtorriger");
+        ReSetAnime("jumptorriger");
+        ReSetAnime("doublejumptorriger");
+        ReSetAnime("sukebo");
+        ReSetAnime("sukeboJump");
+    
+        isTime = true;
     }
     private void SetAnime(string torriger)
     {
