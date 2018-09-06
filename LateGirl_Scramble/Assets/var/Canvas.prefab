@@ -159,7 +159,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u03B2\u7248 Version #92"
+  m_Text: LGS20180906-02
 --- !u!222 &222010823914728428
 CanvasRenderer:
   m_ObjectHideFlags: 1
