@@ -316,7 +316,7 @@ public class player : MonoBehaviour {
     {
         if (time > limit&&isSriding)
         {
-            if (Input.GetKey("down"))
+            if (Input.GetKey(KeyCode.DownArrow))//keycodeに変更
             {
                 animeState = "sriding";
                 SetAnime("sridingtorriger");
@@ -350,7 +350,7 @@ public class player : MonoBehaviour {
             rb2d.gravityScale = 1f;
             return;
         }
-        if(jumpcount != 0&&Input.GetKey("down"))
+        if(jumpcount != 0&&Input.GetKey(KeyCode.DownArrow))//keycodeに変更
         {
             animeState = "sriding";
             SetAnime("sridingtorriger");
@@ -547,7 +547,7 @@ public class player : MonoBehaviour {
     /// </summary>
     private void PanDash()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown(KeyCode.Space))//keycodeに変更
         {
             GageManeger(false);
             if (boostState > 0)

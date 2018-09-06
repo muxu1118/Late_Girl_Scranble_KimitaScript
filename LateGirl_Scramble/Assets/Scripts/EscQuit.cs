@@ -8,12 +8,12 @@ public class EscQuit : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.Escape))
+		if (Input.GetKey(KeyCode.F5))
 		{
 			Application.Quit();
 			return;
 		}
-		if (Input.GetKey(KeyCode.F2))
+        if (Input.GetKey(KeyCode.F6))
         {
 			SceneManager.LoadScene("Init");
             return;

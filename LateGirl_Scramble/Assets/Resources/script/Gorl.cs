@@ -9,7 +9,8 @@ public class Gorl : MonoBehaviour {
     private Timer timer;
     [SerializeField]
     private BackSpeed BS;
-    public string nextScene="Resaults";
+    public string truenextScene="trueSinarios";
+    public string falsenextScene = "badSinarios";
     //ゴール時に出る文字
     public GameObject GorlLabelObject;
 
@@ -60,10 +61,18 @@ public class Gorl : MonoBehaviour {
         {
 			aftergoal = 0;
             gorlCount += Time.deltaTime;
-            if (gorlCount >= 3f)
-            {
-                SceneLoadManager.LoadScene(nextScene);
-                isGorl = false;
+            if(timer.Count > timer.CountLimit){
+                if (gorlCount >= 3f)
+                {
+                    SceneLoadManager.LoadScene(truenextScene);
+                    isGorl = false;
+                }
+            }else{
+                if (gorlCount >= 3f)
+                {
+                    SceneLoadManager.LoadScene(falsenextScene);
+                    isGorl = false;
+                }
             }
         }
 	}

@@ -118,20 +118,30 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Resources\script\BGAnime.cs" />
     <Compile Include="Assets\Resources\script\BackGroundMove.cs" />
     <Compile Include="Assets\Resources\script\BackSpeed.cs" />
     <Compile Include="Assets\Resources\script\Block.cs" />
+    <Compile Include="Assets\Resources\script\ChicoShadow.cs" />
     <Compile Include="Assets\Resources\script\CountDown.cs" />
+    <Compile Include="Assets\Resources\script\CutIn.cs" />
+    <Compile Include="Assets\Resources\script\Devil.cs" />
+    <Compile Include="Assets\Resources\script\EffectSpawn.cs" />
+    <Compile Include="Assets\Resources\script\GimmickDelete.cs" />
     <Compile Include="Assets\Resources\script\GimmickManager.cs" />
     <Compile Include="Assets\Resources\script\Gorl.cs" />
+    <Compile Include="Assets\Resources\script\Hukidashi.cs" />
     <Compile Include="Assets\Resources\script\Item.cs" />
     <Compile Include="Assets\Resources\script\ItemMove.cs" />
     <Compile Include="Assets\Resources\script\Map.cs" />
+    <Compile Include="Assets\Resources\script\MoveBg.cs" />
+    <Compile Include="Assets\Resources\script\Pause.cs" />
     <Compile Include="Assets\Resources\script\ScoreManager.cs" />
     <Compile Include="Assets\Resources\script\Senpai.cs" />
     <Compile Include="Assets\Resources\script\Timer.cs" />
     <Compile Include="Assets\Resources\script\colider.cs" />
     <Compile Include="Assets\Resources\script\player.cs" />
+    <Compile Include="Assets\Resources\script\positionMane.cs" />
     <Compile Include="Assets\Resources\script\resul.cs" />
     <Compile Include="Assets\Resources\script\time.cs" />
     <Compile Include="Assets\Resources\script\warp.cs" />
@@ -144,7 +154,10 @@
     <Compile Include="Assets\Scripts\SceneScript\Init.cs" />
     <Compile Include="Assets\Scripts\SceneScript\Loading.cs" />
     <Compile Include="Assets\Scripts\SceneScript\MainScene.cs" />
+    <Compile Include="Assets\Scripts\SinarioManager.cs" />
     <Compile Include="Assets\Scripts\buttonanimation.cs" />
+    <Compile Include="Assets\Scripts\sprite.cs" />
+    <Compile Include="Assets\Senpaizone.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\DOTween\DOTween.XML" />

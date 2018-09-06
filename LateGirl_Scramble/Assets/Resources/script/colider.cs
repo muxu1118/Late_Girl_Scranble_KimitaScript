@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class colider : MonoBehaviour
 {
-	public string nextScene = "Resaults";
+	public string nextScene = "trueSinarios";
     [SerializeField]
     private AudioSource _audios;
     [SerializeField]

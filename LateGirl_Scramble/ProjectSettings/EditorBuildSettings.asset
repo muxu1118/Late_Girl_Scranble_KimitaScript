@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScene.unity
     guid: 2660e121ecee7e2418be0b1b0029f9c3
   - enabled: 1
-    path: Assets/Scenes/Sinarios.unity
+    path: Assets/Scenes/StartSinarios.unity
     guid: 2b00e2075252b6a43a15f994067e5f07
   - enabled: 0
     path: Assets/Scenes/testPlay/Sinarios8bit.unity
@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/mainScene.unity
     guid: b739ea7f548ea344095d2cce317579d9
+  - enabled: 1
+    path: Assets/Scenes/TrueSinarios.unity
+    guid: 1b57b5274bb47481fab49e031380cf46
+  - enabled: 1
+    path: Assets/Scenes/BadSinarios.unity
+    guid: c631c598ed825485ca6d595129787d3c
   - enabled: 1
     path: Assets/Scenes/Resaults.unity
     guid: b89d9749183124e8aa45a6ef4b28afc1
