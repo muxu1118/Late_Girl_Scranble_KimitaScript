@@ -4,43 +4,52 @@ using UnityEngine;
 
 public class CutIn : MonoBehaviour {
 
-    public static bool isCutIn;
-    private float cutinCount;
+    public static bool isCutIn; // カットインの間true
+    private float cutinCount; // カットインを数える変数
     [SerializeField]
-    player Player;
+    player Player; // プレイヤーがスケボーを取ったら
     [SerializeField]
-    EffectSpawn effect;
+    EffectSpawn effect; // カットイン時に出すエフェクト 
 
-    // Use this for initialization
+    Animator anim;// アニメーター
     void Start () {
+        //　publicだとGetComponentできないためanimに入れる
+        anim = GetComponent<Animator>();
     }
 	
-	// Update is called once per frame
+	
 	void Update () {
+        // カットインしている間
         if (isCutIn)
         {
+            // カットインをしている時間
             cutinCount += Time.deltaTime;
-            if(cutinCount >= 1.5f)
+            // カットインが終わったら（リミット１．５秒）
+            if(cutinCount >= 0.75f)
             {
+                // プレイヤーをスケボー状態にする
                 Player.SukeboMove();
+                // カットインを見えなくする
                 gameObject.SetActive(false);
+                // アニメーターを止める
                 GetComponent<Animator>().ResetTrigger("CutIn");
+                // カットインを閉じる
                 isCutIn = false;
             }
-
         }
 	}
+    // カットインを出す（playerがスケボーを取ったら）
     public void SukeboCutIn()
     {
+        // 有効化
         gameObject.SetActive(true);
+        // エフェクトを出す
         effect.Spawn();
-        Debug.Log("スケボー");
+        // カットイン状態
         isCutIn = true;
-        CutInPre();
-    }
-    private void CutInPre()
-    {
-        GetComponent<Animator>().SetTrigger("CutIn");
+        // アニメーションを動かす
+        anim.SetTrigger("CutIn");
+        // カットインの時間を数える
         cutinCount = 0;
     }
 }

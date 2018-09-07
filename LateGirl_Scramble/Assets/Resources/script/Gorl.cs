@@ -61,7 +61,7 @@ public class Gorl : MonoBehaviour {
         {
 			aftergoal = 0;
             gorlCount += Time.deltaTime;
-            if(timer.Count > timer.CountLimit){
+            if(timer.Count >= timer.CountLimit){
                 if (gorlCount >= 3f)
                 {
                     SceneLoadManager.LoadScene(truenextScene);

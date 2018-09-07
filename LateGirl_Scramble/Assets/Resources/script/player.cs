@@ -642,7 +642,7 @@ public class player : MonoBehaviour {
             nowTime += Time.deltaTime;
             yield return new WaitForSeconds(wait);
             Color color = sr.color;
-            color.a = 0;
+            color.a = 0.4f;
             sr.color = color;
             nowTime += Time.deltaTime;
             yield return new WaitForSeconds(wait);

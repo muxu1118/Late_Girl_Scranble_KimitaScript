@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//　ゲームオブジェクトの種類。ここに置くことでprefabでも操作ができる
 public enum Animation
 {
-    Bird,
-    Cat,
-    jiji,
+    Bird,// 鳥のオブジェクト
+    Cat, // 猫のオブジェクト
+    jiji,// おじいちゃん
 }
 
 public class BGAnime : MonoBehaviour {
-
+    // 
     public Animation kind;
     private string birdState;
     private bool isBird = false;
