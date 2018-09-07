@@ -15,15 +15,21 @@ public class Map : MonoBehaviour {
     [SerializeField]
     private BackSpeed BS;
     private float parsent = 0;
+    bool isEnd=false;
     private void Update()
     {
 
-        if (!CountDown.isStart||Gorl.isGorl) return;
-		chicoMap.transform.Translate((((0.05f / parsent) * 2  + Kasoku())* 0.8F) * Time.deltaTime * 50f, 0, 0);
+        if (!CountDown.isStart||CutIn.isCutIn || isEnd) return;
+        if (Gorl.isGorl && !isEnd)
+        {
+            isEnd = true;
+        }
+        chicoMap.transform.Translate((((0.05f / parsent) * 2  + Kasoku())* 0.795F) * Time.deltaTime * 50f, 0, 0);
 		senpaiMap.transform.Translate(((0.05f / parsent)* 0.5F) * Time.deltaTime * 50f, 0, 0);
     }
     void Start()
     {
+        isEnd = false;
         Speed();
     }
     private float Kasoku()

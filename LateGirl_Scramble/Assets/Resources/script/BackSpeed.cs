@@ -51,6 +51,7 @@ public class BackSpeed : MonoBehaviour {
 
     private void scrollBackGround()
     {
+        if (!CountDown.isStart || CutIn.isCutIn || Gorl.isGorl) return;
         if (!isGorl)
         {
             transform.Translate((-BackSceneSpeed - panSpeed) * Time.deltaTime * 50f, 0, 0);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveBg : MonoBehaviour
 {
-
+    bool isEnd=false;
     // Use this for initialization
     void Start()
     {
@@ -15,7 +15,11 @@ public class MoveBg : MonoBehaviour
     void Update()
     {
 
-        if (!CountDown.isStart || CutIn.isCutIn) return;
+        if (!CountDown.isStart || CutIn.isCutIn|| isEnd) return;
+        if (Gorl.isGorl && !isEnd)
+        {
+            isEnd = true;
+        }
         transform.Translate(-0.1f / 4 * Time.deltaTime * 50f, 0, 0);
         if (transform.position.x <= -38.1f)
         {
