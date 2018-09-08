@@ -6,6 +6,7 @@ using UnityEngine;
 public enum Animation
 {
     Bird,// 鳥のオブジェクト
+    BirdSmall,// 小さい鳥のオブジェクト
     Cat, // 猫のオブジェクト
     jiji,// おじいちゃん
 }
@@ -53,6 +54,20 @@ public class BGAnime : MonoBehaviour {
                     birdState = "Fly";
                     SetAnime("Fly");
                     isBird = false;
+                }
+
+            }
+        }else if (kind == Animation.BirdSmall)
+        {
+            if (collision.gameObject.tag == "Anime")
+            {
+
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+
+                    SetAnime("Bird");
+                    birdState = "Fly";
+                    SetAnime("Fly");
                 }
 
             }

@@ -559,7 +559,7 @@ public class player : MonoBehaviour {
                 }
                 GameObject panDash = Instantiate(panDashEffect);
                 panDash.transform.parent = transform;
-                panDash.transform.position = new Vector3(-2.13f - 4.3f, gameObject.transform.position.y-0.2f, 0f);
+                panDash.transform.position = new Vector3(gameObject.transform.position.x - 1.8f, gameObject.transform.position.y-0.2f, 0f);
                 audio.PlayOneShot(seDash);
                 backSpeed.PanSpeedUp();
                 boostState--;
