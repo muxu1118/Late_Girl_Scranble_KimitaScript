@@ -5,7 +5,7 @@ using UnityEngine;
 public class Senpai : MonoBehaviour
 {
     [SerializeField]
-    private player player;
+    private Player player;
     [SerializeField]
     private Gorl gorl;
     [SerializeField]

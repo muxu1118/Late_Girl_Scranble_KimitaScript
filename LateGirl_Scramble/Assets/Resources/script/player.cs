@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 //using UnityEditor;
 
-public class player : MonoBehaviour {
+public class Player : MonoBehaviour {
     [SerializeField]
     private float speed = 0f; //プレイヤーの速さ
     [SerializeField]

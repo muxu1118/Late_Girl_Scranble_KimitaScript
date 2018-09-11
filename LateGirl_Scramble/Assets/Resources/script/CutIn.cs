@@ -7,7 +7,7 @@ public class CutIn : MonoBehaviour {
     public static bool isCutIn; // カットインの間true
     private float cutinCount; // カットインを数える変数
     [SerializeField]
-    player Player; // プレイヤーがスケボーを取ったら
+    Player Player; // プレイヤーがスケボーを取ったら
     [SerializeField]
     EffectSpawn effect; // カットイン時に出すエフェクト 
 

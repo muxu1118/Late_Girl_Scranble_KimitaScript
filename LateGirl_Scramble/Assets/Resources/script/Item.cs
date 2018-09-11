@@ -9,7 +9,7 @@ public enum ItemType {
 
 public class Item : MonoBehaviour {
     
-    private player player;
+    private Player player;
     public ItemType itemName;//アイテムの名前を入れる箱
 
     private void Awake()

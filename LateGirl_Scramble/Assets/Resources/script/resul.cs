@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class resul : MonoBehaviour {
+public class Resul : MonoBehaviour {
 
     [SerializeField]
     Image gameEndImage;

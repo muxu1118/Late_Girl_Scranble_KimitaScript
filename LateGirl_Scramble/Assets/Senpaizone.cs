@@ -8,7 +8,7 @@ public class Senpaizone : MonoBehaviour {
     [SerializeField]
     private GameObject hukidashi;
 
-    player player;
+    Player player;
     // Use this for initialization
     void Start () {
 		
@@ -19,7 +19,7 @@ public class Senpaizone : MonoBehaviour {
         {
             Debug.Log("なんで吹き出しでないん？");
             hukidashi.SetActive(true);
-            player = collision.GetComponent<player>();
+            player = collision.GetComponent<Player>();
             player.okkake();
         }
     }

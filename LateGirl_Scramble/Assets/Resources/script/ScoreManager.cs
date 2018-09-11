@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour {
     public static int pan=0;
     [SerializeField]
     private Image[] numberImages;
-    private player player;
+    private Player player;
     
     [SerializeField]
     private Sprite[] spriteNumbers = new Sprite[10];

@@ -21,7 +21,7 @@ public class BackGroundMove : MonoBehaviour {
 	[SerializeField]
 	GameObject itemPosition;
     GameObject ParentObject;
-    private warp[] warpScript = new warp[4];
+    private Warp[] warpScript = new Warp[4];
     public static bool isChange = false;
     public static bool isCount = false;
     private int rand;
@@ -43,7 +43,7 @@ public class BackGroundMove : MonoBehaviour {
     {
         for(int i = 0;i < warpScript.Length; i++)
         {
-            warpScript[i] = pattern[i].gameObject.GetComponent<warp>();
+            warpScript[i] = pattern[i].gameObject.GetComponent<Warp>();
         }
 		for (int i = 0; i < pan.Length; i++)
         {

@@ -74,7 +74,7 @@ public class GimmickManager : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (player.isSukebo)
+        if (Player.isSukebo)
         {
             isSukeboCollision = true;
         }

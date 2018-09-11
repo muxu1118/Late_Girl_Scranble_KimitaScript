@@ -10,16 +10,14 @@ public class Timer : MonoBehaviour {
     // リザルト時のスコア
     [SerializeField]
     private Sprite[] scoreImages;
-
+    // ゲームの終了する時間
+    [SerializeField]
+    private float countLimit = 0f;
     // ゲーム内タイム。シーン別でも変わらないようにstaticつけてます。
     private static float count = 120f;
     // ゲームが時間で終わったかどうかのbool
     private static bool stop = false;
-    /// <summary>
-    ///ゲームの終了する時間
-    /// </summary>
-    [SerializeField]
-    private float countLimit = 0f;
+   
     // 数字のスプライト
     [SerializeField]
     private Sprite[] spriteNumbers = new Sprite[10];

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class colider : MonoBehaviour
+public class Colider : MonoBehaviour
 {
 	public string nextScene = "trueSinarios";
     [SerializeField]
